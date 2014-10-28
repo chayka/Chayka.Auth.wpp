@@ -1,0 +1,12 @@
+<h1>Добро пожаловать на <?php echo $_SERVER['SERVER_NAME'];?>!</h1>
+
+<div>
+    Поздравляем, вы зарегистрировались на сайте <a href="http://<?php echo $_SERVER['SERVER_NAME'];?>"><?php echo $_SERVER['SERVER_NAME'];?></a>.
+</div>
+<div>
+    <h2>Ваши учетные данные:</h2>
+    <dl><dt>email:</dt><dd><?php echo $this->user->getEmail();?></dd></dl>
+    <dl><dt>псевдоним:</dt><dd><?php echo $this->user->getLogin();?></dd></dl>
+    <dl><dt>пароль:</dt><dd><?php echo $this->password;?></dd></dl>
+    <div class="clearfloat"></div>
+</div>

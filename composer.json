@@ -1,0 +1,19 @@
+{
+    "name": "chayka/auth-wpp",
+    "description": "Chayka framework implementation of Auth process",
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Boris Mossounov",
+            "email": "borix@tut.by"
+        }
+    ],
+    "chayka-wp-plugin": "Chayka\\Auth\\Plugin",
+    "autoload":{
+        "classmap": ["app/helpers", "Plugin.php"]
+    },
+    "require": {
+        "chayka/wp": "dev-master"
+    }
+}

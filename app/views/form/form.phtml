@@ -1,0 +1,33 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: borismossounov
+ * Date: 27.10.14
+ * Time: 14:58
+ */
+
+use Chayka\WP\Helpers\NlsHelper;
+
+$this->declareVars(array(
+    'titleLocation'=>'header',
+    'popup'=>'',
+    'screen'=>'login',
+    'key'=>'',
+    'login'=>'',
+    'authMode'=>'reload',
+));
+
+$isFbApiAvailable = class_exists('Chayka\\Facebook\\FacebookHelper');
+$areSocialsAvailable = $isFbApiAvailable;
+
+?>
+<div class="bem-modal_auth_form" data-view="brx.AuthForm" data-titleLocation="<?php echo $this->titleLocation;?>" data-popup="<?php echo $this->popup;?>" data-screen="<?php echo $this->screen;?>" data-key="<?php echo $this->key;?>" data-login="<?php echo $this->login;?>" data-authMode="<?php echo $this->authMode;?>">
+
+    <div class="form_box-links" data-attach-point="linksBox">
+        <span data-attach-point="links.login" data-attach-event="click: showLoginScreen" class="link" ><?php NlsHelper::__('link_login');?></span>
+        <span data-attach-point="links.join" data-attach-event="click: showJoinScreen" class="link" ><?php NlsHelper::__('link_join');?></span>
+        <span data-attach-point="links.forgotPassword" data-attach-event="click: showForgotPasswordScreen" class="link"><?php NlsHelper::__('link_forgot_password');?></span>
+        <span data-attach-point="links.changePassword" data-attach-event="click: showChangePasswordScreen" class="link" ><?php NlsHelper::__('link_change_password');?></span>
+    </div>
+    <div class="clearfloat"></div>
+</div>
