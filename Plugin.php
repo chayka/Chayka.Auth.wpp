@@ -16,7 +16,6 @@ class Plugin extends WP\Plugin{
         self::$instance = $plugin = new self(__FILE__, array(
             'auth'
         ));
-
         $plugin->addAuthForm();
     }
 
@@ -60,7 +59,7 @@ class Plugin extends WP\Plugin{
      */
     public function registerResources($minimize = false)
     {
-        $this->registerScript('chayka-auth', 'src/ng-modules/chayka-auth.js', array('jquery', 'angular', 'chayka-forms', 'chayka-modals'));
+        $this->registerScript('chayka-auth', 'src/ng-modules/chayka-auth.js', array('jquery', 'angular', 'chayka-forms', 'chayka-modals', 'chayka-spinners', 'chayka-ajax'));
         $this->registerStyle('chayka-auth', 'src/ng-modules/chayka-auth.css', array());
     }
 

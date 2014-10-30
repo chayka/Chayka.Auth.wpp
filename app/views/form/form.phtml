@@ -15,19 +15,38 @@ $this->declareVars(array(
     'key'=>'',
     'login'=>'',
     'authMode'=>'reload',
+    'screens'=>array(
+        'join',
+        'login',
+        'logout',
+        'password-change',
+        'password-forgot'
+    )
 ));
 
 $isFbApiAvailable = class_exists('Chayka\\Facebook\\FacebookHelper');
 $areSocialsAvailable = $isFbApiAvailable;
-
 ?>
-<div class="bem-modal_auth_form" data-view="brx.AuthForm" data-titleLocation="<?php echo $this->titleLocation;?>" data-popup="<?php echo $this->popup;?>" data-screen="<?php echo $this->screen;?>" data-key="<?php echo $this->key;?>" data-login="<?php echo $this->login;?>" data-authMode="<?php echo $this->authMode;?>">
-
-    <div class="form_box-links" data-attach-point="linksBox">
-        <span data-attach-point="links.login" data-attach-event="click: showLoginScreen" class="link" ><?php NlsHelper::__('link_login');?></span>
-        <span data-attach-point="links.join" data-attach-event="click: showJoinScreen" class="link" ><?php NlsHelper::__('link_join');?></span>
-        <span data-attach-point="links.forgotPassword" data-attach-event="click: showForgotPasswordScreen" class="link"><?php NlsHelper::__('link_forgot_password');?></span>
-        <span data-attach-point="links.changePassword" data-attach-event="click: showChangePasswordScreen" class="link" ><?php NlsHelper::__('link_change_password');?></span>
+<div id="chayka-auth" class="ng-cloak" data-ng-controller="form" data-popup="<?php echo $this->popup;?>" data-screen="<?php echo $this->screen;?>" data-key="<?php echo $this->key;?>" data-login="<?php echo $this->login;?>" data-auth-mode="<?php echo $this->authMode;?>">
+    <div data-moda="modal">
+<?php
+    foreach($this->screens as $screen){
+        echo $this->partial('form/'.$screen.'.phtml');
+    }
+?>
+    <div class="form_box-links">
+        <a data-ng-click="window.console.dir(this);showLoginScreen();" data-tap-disabled="false" data-ng-hide="screen === 'login'" class="link" ><?php NlsHelper::__('link_login');?></a>
+        <a data-ng-click="showJoinScreen();" data-ng-hide="screen === 'join'" class="link" ><?php NlsHelper::__('link_join');?></a>
+        <a data-ng-click="showForgotPasswordScreen();" data-ng-hide="screen === 'password-forgot'" class="link"><?php NlsHelper::__('link_forgot_password');?></a>
+        <a data-ng-click="showChangePasswordScreen();" data-ng-hide="screen === 'password-change'" class="link" ><?php NlsHelper::__('link_change_password');?></a>
     </div>
     <div class="clearfloat"></div>
+    </div>
 </div>
+<script>
+    (function($, angular){
+        $(document).ready(function(){
+            angular.bootstrap(document.getElementById('chayka-auth'), ['chayka-auth'])
+        });
+    }(window.jQuery, window.angular));
+</script>
