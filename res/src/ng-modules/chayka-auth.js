@@ -106,24 +106,29 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
     }])
     .controller('login', ['$scope', 'ajax', function($scope, ajax){
         $scope.$parent.registerScreen('login', $scope);
+        $scope.spinner = null;
         $scope.isOpen = false;
-        $scope.email = '1';
-        $scope.password = '2';
+        $scope.login = {
+            email: '',
+            password: ''
+        };
 
         $scope.buttonLoginClicked = function(event){
             //event.preventDefault();
-            $scope.$digest();
-            if(true || $scope.validator.validateFields()){
+            console.dir({scope: $scope});
+            if($scope.validator.validateFields()){
                 ajax.post('/api/auth/login',
                     {
-                        log: $scope.email,
-                        pwd: $scope.password
+                        log: $scope.login.email,
+                        pwd: $scope.login.password
                     },{
                         spinner: $scope.spinner,
                         showMessage: false,
+                        formValidator: $scope.validator,
                         errorMessage: 'message_error_auth_failed',
                         success: function(data){
                             console.dir({'data': data});
+                            $scope.validator.showMessage('Welcome');
                             //this.setMessage(this.nls('message_welcome'));//'Вход выполнен, добро пожаловать!');
                             //this.onUserChanged(data.payload);
     //                        $.brx.utils.loadPage();

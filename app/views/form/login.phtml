@@ -9,10 +9,10 @@ $areSocialsAvailable = $isFbApiAvailable;
 
 <div data-ng-controller="login" class="form_screen screen_login" data-screen-title="<?php NlsHelper::__('header_login_screen');?>" data-ng-show="isOpen">
     <h2><?php NlsHelper::__('header_login_screen');?></h2>
-    <form data-ng-submit="buttonLoginClicked()" data-form-validator="validator">
+    <form data-ng-submit="buttonLoginClicked()" data-form-validator="validator" novalidate="novalidate">
 <!--        <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>-->
         <?php if($areSocialsAvailable):?>
-            <div class="social_logins" data-attach-point="socialBox">
+            <div class="social_logins" >
                 <h2>Войти через социальную сеть:</h2>
                 <ul class="buttons">
                     <?php if($isFbApiAvailable):?>
@@ -24,11 +24,11 @@ $areSocialsAvailable = $isFbApiAvailable;
         <?php endif;?>
         <div class="form_field email_login" data-form-field="email" data-check-email="<?php NlsHelper::__('message_validate_email', 'member@'.Util::serverName())?>" data-check-required="<?php NlsHelper::__('message_required');?>">
             <label><?php NlsHelper::__('label_email')?></label>
-            <input type="email" data-ng-model="email"/>
+            <input type="email" data-ng-model="login.email"/>
         </div>
         <div class="form_field password" data-form-field="password" data-check-required="<?php NlsHelper::__('message_required');?>">
             <label><?php NlsHelper::__('label_password')?></label>
-            <input type="password" data-ng-model="password" />
+            <input type="password" data-ng-model="login.password" />
         </div>
         <div class="form_results">
             <div data-spinner="spinner"></div>

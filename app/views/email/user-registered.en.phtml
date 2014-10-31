@@ -1,0 +1,12 @@
+<h1>Welcome to <?php echo $_SERVER['SERVER_NAME'];?>!</h1>
+
+<div>
+    Congrats! You have joined <a href="http://<?php echo $_SERVER['SERVER_NAME'];?>"><?php echo $_SERVER['SERVER_NAME'];?></a>.
+</div>
+<div>
+    <h2>Your credentials:</h2>
+    <dl><dt>email:</dt><dd><?php echo $this->user->getEmail();?></dd></dl>
+    <dl><dt>name:</dt><dd><?php echo $this->user->getLogin();?></dd></dl>
+    <dl><dt>password:</dt><dd><?php echo $this->password;?></dd></dl>
+    <div class="clearfloat"></div>
+</div>

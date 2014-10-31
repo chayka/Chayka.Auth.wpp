@@ -28,7 +28,7 @@ $isFbApiAvailable = class_exists('Chayka\\Facebook\\FacebookHelper');
 $areSocialsAvailable = $isFbApiAvailable;
 ?>
 <div id="chayka-auth" class="ng-cloak" data-ng-controller="form" data-popup="<?php echo $this->popup;?>" data-screen="<?php echo $this->screen;?>" data-key="<?php echo $this->key;?>" data-login="<?php echo $this->login;?>" data-auth-mode="<?php echo $this->authMode;?>">
-    <div data-moda="modal">
+    <div data-modal="modal">
 <?php
     foreach($this->screens as $screen){
         echo $this->partial('form/'.$screen.'.phtml');

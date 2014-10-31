@@ -82,6 +82,7 @@ class Plugin extends WP\Plugin{
     public function addAuthForm(){
         wp_enqueue_script('chayka-auth');
         wp_enqueue_style('chayka-auth');
+        NlsHelper::load('authForm');
         $view = self::getView();
         $this->addAction('wp_footer', function() use ($view){
             echo $view->render('form/form.phtml');

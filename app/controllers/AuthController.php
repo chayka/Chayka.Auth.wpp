@@ -17,6 +17,8 @@ use WP_Error;
 
 class AuthController extends Controller{
     public function init() {
+        InputHelper::captureInput();
+        NlsHelper::load('auth');
 //        Util::turnRendererOff();
 //        NlsHelper::setNlsDir(WPP_BRX_AUTH_PATH . 'nls');
 //        NlsHelper::load('controllers/auth');
@@ -140,6 +142,7 @@ class AuthController extends Controller{
 //        }
 
         if (!is_wp_error($user)) {
+            $user = UserModel::unpackDbRecord($user);
             JsonHelper::respond($user);
         }
 
