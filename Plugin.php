@@ -59,7 +59,7 @@ class Plugin extends WP\Plugin{
      */
     public function registerResources($minimize = false)
     {
-        $this->registerScript('chayka-auth', 'src/ng-modules/chayka-auth.js', array('jquery', 'angular', 'chayka-forms', 'chayka-modals', 'chayka-spinners', 'chayka-ajax'));
+        $this->registerScript('chayka-auth', 'src/ng-modules/chayka-auth.js', array('jquery', 'angular', 'chayka-translate', 'chayka-forms', 'chayka-modals', 'chayka-spinners', 'chayka-ajax'));
         $this->registerStyle('chayka-auth', 'src/ng-modules/chayka-auth.css', array());
     }
 

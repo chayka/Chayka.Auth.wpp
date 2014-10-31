@@ -11,7 +11,7 @@ namespace Chayka\Auth;
 use Chayka\Helpers\InputHelper;
 use Chayka\MVC\Controller;
 use Chayka\WP\Helpers\JsonHelper;
-use Chayka\WP\Helpers\NlsHelper;
+//use NlsHelper;
 use Chayka\WP\Models\UserModel;
 use WP_Error;
 
@@ -98,7 +98,7 @@ class AuthController extends Controller{
                 $errors->add('register_fail', NlsHelper::_('error_register_fail', get_option('admin_email')));
             }
         }
-
+        $errors = $this->translateErrors($errors);
         JsonHelper::respondErrors($errors);
     }
 
@@ -146,6 +146,7 @@ class AuthController extends Controller{
             JsonHelper::respond($user);
         }
 
+        $user = $this->translateErrors($user);
         JsonHelper::respondErrors($user);
     }
 
@@ -153,7 +154,6 @@ class AuthController extends Controller{
         wp_logout();
         $user = new UserModel();
         JsonHelper::respond($user);
-        exit();
     }
 
     public function forgotPasswordAction() {
@@ -176,6 +176,7 @@ class AuthController extends Controller{
         }
 
         if ($errors->get_error_code()) {
+            $errors = $this->translateErrors($errors);
             JsonHelper::respondErrors($errors);
         }
 
@@ -189,6 +190,7 @@ class AuthController extends Controller{
             $errors = $allow;
         }
         if ($errors->get_error_code()) {
+            $errors = $this->translateErrors($errors);
             JsonHelper::respondErrors($errors);
         }
 
@@ -254,6 +256,39 @@ class AuthController extends Controller{
                 JsonHelper::respond($user);
             }
         }
+    }
+
+    public function translateErrors(WP_Error $errors, $payload = array(), $httpResponseCode = 400) {
+        $newErrors = new WP_Error();
+        foreach ($errors->errors as $code => $error) {
+            switch ($code) {
+                case 'incorrect_password':
+                    $newMessage = NlsHelper::_('error_invalid_password');
+                    break;
+                case 'username_exists':
+                    $newMessage = NlsHelper::_('error_username_exists');
+                    break;
+                case 'email_exists':
+                    $newMessage = NlsHelper::_('error_email_exists');
+                    break;
+                case 'invalid_username':
+                    $newMessage = NlsHelper::_('error_invalid_combo');
+                    break;
+                case 'empty_username':
+                case 'empty_password':
+                case 'authentication_failed':
+                    break;
+                default:
+            }
+            if ($newMessage) {
+                $newErrors->add($code, $newMessage);
+//                $errors->errors[$code] = array($newMessage);
+            }else{
+                $newErrors->add($code, $error);
+            }
+        }
+
+        return $newErrors;
     }
 
 

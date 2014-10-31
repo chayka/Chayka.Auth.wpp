@@ -1,17 +1,17 @@
 <?php
 
-use Chayka\WP\Helpers\NlsHelper;
+use Chayka\Helpers\NlsHelper;
 
 ?>
 <div class="form_screen screen_logout" data-ng-controller="logout" data-screen-title="<?php NlsHelper::__('header_logout_screen');?>" data-ng-show="isOpen">
     <h2><?php NlsHelper::__('header_logout_screen');?></h2>
-    <form>
+    <form data-form-validator="validator" novalidate="novalidate">
         <div class="form_box-comments">
             <?php NlsHelper::__('message_want_to_sign_out')?>
         </div>
         <div class="form_results">
             <div data-spinner="spinner"></div>
-            <div class="form_message" data-ng-show="!!message">{{message}}</div>
+            <div data-form-message class="form_message"></div>
         </div>
         <div class="form_buttons">
             <button data-ng-click="buttonLogoutClicked()" class="button_logout"><?php NlsHelper::__('button_logout');?></button>
