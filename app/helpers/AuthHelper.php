@@ -9,12 +9,25 @@
 namespace Chayka\Auth;
 
 
+use Chayka\Helpers\Util;
+use Chayka\Helpers\HttpHeaderHelper;
 use Chayka\WP\Helpers\DbHelper;
 use Chayka\WP\Helpers\NlsHelper;
 use Chayka\WP\Models\UserModel;
 use WP_Error;
 
 class AuthHelper {
+    public static function hideActivationKey(){
+        Util::sessionStart();
+        if(!empty($_GET['activationkey']) && !empty($_GET['login'])){
+            $_SESSION['activationkey'] = $_GET['activationkey'];
+            $_SESSION['activationlogin'] = $_GET['login'];
+            $_SESSION['activationpopup'] = true;
+            session_commit();
+            HttpHeaderHelper::redirect('/');
+        }
+    }
+
     /**
      * Check activation key.
      *
@@ -59,7 +72,7 @@ class AuthHelper {
             $key = wp_generate_password(20, false);
             do_action('retrieve_password_key', $user->getLogin(), $key);
             // Now insert the new md5 key into the db
-            DbHelper::update($wpdb->users, array('user_activation_key' => $key), array('ID' => $user->getId()));
+            DbHelper::update(array('user_activation_key' => $key), $wpdb->users,  array('ID' => $user->getId()));
         }
 
         return $key;

@@ -11,10 +11,13 @@ namespace Chayka\Auth;
 use Chayka\Email;
 use Chayka\WP\Models\UserModel;
 
+NlsHelper::load('email');
+
 class EmailHelper extends Email\EmailHelper{
 
     public static function getView(){
-        return Plugin::getView();
+        $view = Plugin::getView();
+        return $view;
     }
 
     /**
@@ -22,8 +25,8 @@ class EmailHelper extends Email\EmailHelper{
      * @param string $password
      */
     public static function userRegistered($user, $password){
-        self::sendTemplate(sprintf("Учетная запись на %s", $_SERVER['SERVER_NAME']),
-            'user-registered.phtml', array('user' => $user, 'password' => $password),
+        self::sendTemplate(NlsHelper::_('email_subject_user_registered', $_SERVER['SERVER_NAME']),
+            'email/user-registered.phtml', array('user' => $user, 'password' => $password),
             $user->getEmail());
     }
 
@@ -32,8 +35,8 @@ class EmailHelper extends Email\EmailHelper{
      * @param $activationKey
      */
     public static function forgotPassword($user, $activationKey){
-        self::sendTemplate(sprintf("Смена пароля на %s", $_SERVER['SERVER_NAME']),
-            'forgot-password.phtml', array(
+        self::sendTemplate(NlsHelper::_('email_subject_forgot_password', $_SERVER['SERVER_NAME']),
+            'email/forgot-password.phtml', array(
                 'user' => $user,
                 'activationKey' => $activationKey
             ), $user->getEmail());
@@ -44,9 +47,8 @@ class EmailHelper extends Email\EmailHelper{
      * @param $password
      */
     public static function newPassword($user, $password){
-        self::sendTemplate(sprintf("Учетная запись на %s", $_SERVER['SERVER_NAME']),
-            'new-password.phtml', array('user' => $user, 'password' => $password),
+        self::sendTemplate(NlsHelper::_('email_subject_new_password', $_SERVER['SERVER_NAME']),
+            'email/new-password.phtml', array('user' => $user, 'password' => $password),
             $user->getEmail());
-
     }
 }

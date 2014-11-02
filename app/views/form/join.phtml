@@ -4,17 +4,17 @@ use Chayka\Helpers\Util;
 use Chayka\Helpers\NlsHelper;
 
 ?>
-<div class="form_screen screen_join" data-ng-controller="join" data-screen-title="<?php NlsHelper::__('header_join_screen')?>" data-ng-show="isOpen">
+<div class="form_screen screen_join ng-cloak" data-ng-controller="join" data-screen-title="<?php NlsHelper::__('header_join_screen')?>" data-ng-show="isOpen">
     <h2><?php NlsHelper::__('header_join_screen')?></h2>
     <form data-ng-submit="buttonJoinClicked()" data-form-validator="validator" novalidate="novalidate">
 <!--        <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>-->
-        <div class="form_field email_join" data-form-field="email" data-check-email="<?php NlsHelper::__('message_validate_email', 'member@'.Util::serverName())?>" data-check-required="<?php NlsHelper::__('message_required');?>">
+        <div class="form_field email_join" data-form-field="email" data-check-required="<?php NlsHelper::__('message_required');?>" data-check-email="<?php NlsHelper::__('message_validate_email', 'member@'.Util::serverName())?>" data-check-api="/api/auth/check-email/email/{value}">
             <label><?php NlsHelper::__('label_email')?>:</label>
-            <input type="text" data-ng-model="email" />
+            <input type="text" data-ng-model="fields.email" />
         </div>
-        <div class="form_field name" data-form-field="name" data-check-regexp-pattern="^[A-Za-z\d\-]+$" data-check-regexp-message="<?php NlsHelper::__('message_validate_username');?>" data-check-required="<?php NlsHelper::__('message_required');?>">
+        <div class="form_field name" data-form-field="name" data-check-required="<?php NlsHelper::__('message_required');?>" data-check-regexp-pattern="^[A-Za-z\d\-]+$" data-check-regexp-message="<?php NlsHelper::__('message_validate_username');?>" data-check-api="/api/auth/check-name/login/{value}">
             <label><?php NlsHelper::__('label_username')?>:</label>
-            <input type="text" data-ng-model="name" />
+            <input type="text" data-ng-model="fields.name" />
         </div>
 <!--        <div class="form_field password" data-form-field="password">-->
 <!--            <label>Password</label>-->
@@ -25,7 +25,7 @@ use Chayka\Helpers\NlsHelper;
             <div data-form-message class="form_message"></div>
         </div>
         <div class="form_buttons">
-            <button data-ng-click="buttonJoinClicked()" class="button_join"><?php NlsHelper::__('button_join');?></button>
+            <button class="button_join"><?php NlsHelper::__('button_join');?></button>
         </div>
     </form>
 </div>

@@ -11,15 +11,16 @@ use Chayka\Helpers\NlsHelper;
 $this->declareVars(array(
     'titleLocation'=>'header',
     'popup'=>'',
-    'screen'=>'login',
-    'key'=>'',
-    'login'=>'',
-    'authMode'=>'reload',
+    'screen'=>'password-reset',
+//    'key'=>'',
+//    'login'=>'',
+    'authMode'=>'reload', // reload||event
     'screens'=>array(
         'join',
         'login',
         'logout',
         'password-change',
+        'password-reset',
         'password-forgot'
     )
 ));
@@ -27,11 +28,11 @@ $this->declareVars(array(
 $isFbApiAvailable = class_exists('Chayka\\Facebook\\FacebookHelper');
 $areSocialsAvailable = $isFbApiAvailable;
 ?>
-<div id="chayka-auth" class="ng-cloak" data-ng-controller="form" data-popup="<?php echo $this->popup;?>" data-screen="<?php echo $this->screen;?>" data-key="<?php echo $this->key;?>" data-login="<?php echo $this->login;?>" data-auth-mode="<?php echo $this->authMode;?>">
-    <div data-modal="modal">
+<div id="chayka-auth" class="ng-cloak" data-ng-controller="form" data-auth-screen="<?php echo $this->screen;?>" data-auth-mode="<?php echo $this->authMode;?>">
+    <div data-modal="modal" data-modal-show="<?php echo $this->popup;?>" >
 <?php
     foreach($this->screens as $screen){
-        echo $this->partial('form/'.$screen.'.phtml');
+        echo $this->render('form/'.$screen.'.phtml');
     }
 ?>
     <div class="form_box-links">

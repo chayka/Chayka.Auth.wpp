@@ -59,7 +59,7 @@ class Plugin extends WP\Plugin{
      */
     public function registerResources($minimize = false)
     {
-        $this->registerScript('chayka-auth', 'src/ng-modules/chayka-auth.js', array('jquery', 'angular', 'chayka-translate', 'chayka-forms', 'chayka-modals', 'chayka-spinners', 'chayka-ajax'));
+        $this->registerScript('chayka-auth', 'src/ng-modules/chayka-auth.js', array('jquery', 'angular', 'chayka-translate', 'chayka-forms', 'chayka-modals', 'chayka-spinners', 'chayka-ajax', 'chayka-utils'));
         $this->registerStyle('chayka-auth', 'src/ng-modules/chayka-auth.css', array());
     }
 
@@ -68,7 +68,7 @@ class Plugin extends WP\Plugin{
      */
     public function registerActions()
     {
-
+        $this->addAction('parse_request', array('Chayka\\Auth\\AuthHelper', 'hideActivationKey'));
     }
 
     /**
@@ -85,6 +85,7 @@ class Plugin extends WP\Plugin{
         NlsHelper::load('authForm');
         $view = self::getView();
         $this->addAction('wp_footer', function() use ($view){
+            $view->authMode = OptionsHelper::getOption('authMode', 'reload');
             echo $view->render('form/form.phtml');
         });
     }

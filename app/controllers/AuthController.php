@@ -29,7 +29,7 @@ class AuthController extends Controller{
         $payload = array('email' => $email);
 
         if (email_exists($email)) {
-            JsonHelper::respondErrors(new WP_Error('email_exists', NlsHelper::_('error_email_exists')), 200);
+            JsonHelper::respondErrors(new WP_Error('email', NlsHelper::_('error_email_exists')), 200);
         } else {
             JsonHelper::respond($payload);
         }
@@ -40,14 +40,14 @@ class AuthController extends Controller{
 
         $payload = array('login' => $login);
         if (username_exists($login)) {
-            JsonHelper::respondErrors('username_exists', NlsHelper::_('error_username_exists'), 200);
+            JsonHelper::respondErrors('name', NlsHelper::_('error_username_exists'), 200);
         } else {
             JsonHelper::respond($payload);
         }
     }
 
     public function joinAction() {
-        // TODO: Implement BlocadeHelper
+        // TODO: Implement BlockadeHelper
 //        if (BlockadeHelper::isBlocked()) {
 //            JsonHelper::respondError(NlsHelper::_('error_site_blocked'), 'error_site_blocked');
 //        }
@@ -264,15 +264,19 @@ class AuthController extends Controller{
             switch ($code) {
                 case 'incorrect_password':
                     $newMessage = NlsHelper::_('error_invalid_password');
+                    $code = "password";
                     break;
                 case 'username_exists':
                     $newMessage = NlsHelper::_('error_username_exists');
+                    $code = "name";
                     break;
                 case 'email_exists':
                     $newMessage = NlsHelper::_('error_email_exists');
+                    $code = "email";
                     break;
                 case 'invalid_username':
                     $newMessage = NlsHelper::_('error_invalid_combo');
+                    $code = "name";
                     break;
                 case 'empty_username':
                 case 'empty_password':
