@@ -6,7 +6,7 @@ return array(
     'label_email' => 'Адрес e-mail',
     'label_password' => 'Пароль',
     'header_join_screen' => 'Регистрация',
-    'label_username' => 'Ваш псевдоним',
+    'label_username' => 'Псевдоним',
     'message_validate_username' => 'Допустимые символы: латиница, цифры, без пробелов',
     'header_forgot_password_screen' => 'Восстановление пароля',
     'message_forgot_password' => 'Введите e-mail адрес, указанный при регистрации, и мы вышлем на него код для смены пароля.',

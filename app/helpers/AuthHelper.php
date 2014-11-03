@@ -12,7 +12,7 @@ namespace Chayka\Auth;
 use Chayka\Helpers\Util;
 use Chayka\Helpers\HttpHeaderHelper;
 use Chayka\WP\Helpers\DbHelper;
-use Chayka\WP\Helpers\NlsHelper;
+//use Chayka\WP\Helpers\NlsHelper;
 use Chayka\WP\Models\UserModel;
 use WP_Error;
 
@@ -60,8 +60,7 @@ class AuthHelper {
 
         $userId = 0;
         sscanf($key, '%20s%x', $key, $userId);
-        $user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE ID = %d", $userId));
-
+        $user = get_user_by('id', $userId);//$wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE ID = %d", $userId));
         if(!$user || md5($key) !== $user->user_activation_key){
             return null;
         }

@@ -1,3 +1,40 @@
-.some {
-  color: '';
+#chayka-auth .form_screen {
+  padding: 0 1ex;
+  width: 320px;
+}
+#chayka-auth .form_screen > h2 {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+#chayka-auth .form_screen > form > .form_hint {
+  margin-bottom: 2em;
+}
+#chayka-auth .form_screen > form > .form_field > .message {
+  width: 200px;
+  text-align: left;
+  margin-left: 120px;
+  padding-top: .5ex;
+  font-size: .8em;
+}
+#chayka-auth .form_screen > form > .form_results {
+  text-align: center;
+  min-height: 30px;
+  margin-bottom: 1.5em;
+  font-size: 14px;
+}
+#chayka-auth .form_screen > form > .form_buttons {
+  text-align: right;
+  margin-bottom: 1em;
+}
+#chayka-auth .form_screen > form > .form_buttons button {
+  width: 200px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+#chayka-auth .nav_links {
+  text-align: right;
+}
+#chayka-auth .nav_links .link {
+  cursor: pointer;
+  margin: 0 1ex;
 }

@@ -97,6 +97,12 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
             $scope.showScreen('password-change');
         };
 
+        $scope.hideModal = function(){
+            if($scope.modal){
+                $scope.modal.hide();
+            }
+        }
+
         $scope.openChangePasswordScreen = function(){
             $scope.openScreen('password-change');
         };
@@ -151,6 +157,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
                         showMessage: false,
                         formValidator: $scope.validator,
                         errorMessage: $translate.instant('message_error_auth_failed'),
+                        scope: $scope,
                         success: function(data){
                             console.dir({'data': data});
                             $scope.validator.showMessage($translate.instant('message_welcome'));
@@ -175,6 +182,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
                         showMessage: false,
                         formValidator: $scope.validator,
                         errorMessage: $translate.instant('message_error_signing_out'),
+                        scope: $scope,
                         success: function(data){
                             console.dir({'data': data});
                             //this.showLoginScreen();
@@ -208,6 +216,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
                         showMessage: false,
                         formValidator: $scope.validator,
                         errorMessage: $translate.instant('message_error_sign_up_failed'),
+                        scope: $scope,
                         success: function(data){
                             console.dir({'data': data});
                             //this.showLoginScreen();
@@ -241,6 +250,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
                         showMessage: false,
                         formValidator: $scope.validator,
                         errorMessage: $translate.instant('message_error_password_recovery'),
+                        scope: $scope,
                         success: function(data){
                             console.dir({'data': data});
                             $scope.validator.showMessage($translate.instant('message_change_pass_code_sent'));
@@ -249,10 +259,10 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
             }
         };
     }])
-    .controller('password-reset', ['$scope', '$http', function($scope, $http){
+    .controller('password-reset', ['$scope', '$translate', '$timeout' ,'ajax', function($scope, $translate, $timeout, ajax){
         $scope.$parent.registerScreen('password-reset', $scope);
         $scope.isOpen = false;
-        $scoep.key = '';
+        $scope.key = '';
         $scope.fields = {
             password1: '',
             password2: ''
@@ -274,12 +284,13 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
                         showMessage: false,
                         formValidator: $scope.validator,
                         errorMessage: $translate.instant('message_error_wrong_code'),
+                        scope: $scope,
                         success: function(data){
                             console.dir({'data': data});
                             //this.showLoginScreen();
                             $scope.validator.showMessage($translate.instant('message_password_set_signing_in'));
                             $timeout(function(){
-                                $scope.modal.hide();
+                                $scope.$parent.hideModal();
                             }, 2000);
                             $scope.$emit('Chayka.Users.currentUserChanged', data.payload);
                         }
@@ -309,12 +320,13 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
                         showMessage: false,
                         formValidator: $scope.validator,
                         errorMessage: $translate.instant('message_error_change_password'),
+                        scope: $scope,
                         success: function(data){
                             console.dir({'data': data});
                             //this.showLoginScreen();
                             $scope.validator.showMessage($translate.instant('message_password_changed'));
                             $timeout(function(){
-                                $scope.modal.hide();
+                                $scope.$parent.hideModal();
                             }, 2000);
                             //$scope.$emit('Chayka.Users.currentUserChanged', data.payload);
                             //this.onUserChanged(data.payload);

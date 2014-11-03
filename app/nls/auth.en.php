@@ -13,5 +13,6 @@ return array(
     'error_passwords_mismatch' => 'The passwords do not match.',
     'error_invalid_password'=> 'Incorrect password. <a href="#forgot-password">Forgot your password?</a>',//'Вы ввели неверный пароль',
     'error_passwords_required' => 'New password required',//'Вы не ввели новые пароли',
+    'error_invalid_key' => 'The link for password change is outdated. Could you please repeat password recovery procedure',
     'error_site_blocked' => 'This Site is temporarily unavailable, only Administrator is able to sign in',//'Вы не ввели новые пароли',
 );

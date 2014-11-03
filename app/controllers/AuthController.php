@@ -29,7 +29,7 @@ class AuthController extends Controller{
         $payload = array('email' => $email);
 
         if (email_exists($email)) {
-            JsonHelper::respondErrors(new WP_Error('email', NlsHelper::_('error_email_exists')), 200);
+            JsonHelper::respondErrors(new WP_Error('email', NlsHelper::_('error_email_exists')));
         } else {
             JsonHelper::respond($payload);
         }
@@ -40,7 +40,7 @@ class AuthController extends Controller{
 
         $payload = array('login' => $login);
         if (username_exists($login)) {
-            JsonHelper::respondErrors('name', NlsHelper::_('error_username_exists'), 200);
+            JsonHelper::respondErrors(new WP_Error('name', NlsHelper::_('error_username_exists')));
         } else {
             JsonHelper::respond($payload);
         }
@@ -205,13 +205,13 @@ class AuthController extends Controller{
 //        $login = InputHelper::getParam('login');
 
 
-        InputHelper::checkParam('pass1')->required();
-        InputHelper::checkParam('pass2')->required();
+        InputHelper::checkParam('password1')->required();
+        InputHelper::checkParam('password2')->required();
 
         InputHelper::validateInput(true);
 
-        $pass1 = InputHelper::getParam('pass1');
-        $pass2 = InputHelper::getParam('pass2');
+        $pass1 = InputHelper::getParam('password1');
+        $pass2 = InputHelper::getParam('password2');
 
         if ($pass1 != $pass2) {
             $errors = new WP_Error('passwords_mismatch', NlsHelper::_('error_passwords_mismatch'));
@@ -223,7 +223,7 @@ class AuthController extends Controller{
         $user = AuthHelper::checkActivationKey($key);
 
         if(!$user){
-            JsonHelper::respondError(NlsHelper::_('invalid_key'), 'invalid_key');
+            JsonHelper::respondError(NlsHelper::_('error_invalid_key'), 'invalid_key');
         }
 
         AuthHelper::changePassword($user, $pass1);

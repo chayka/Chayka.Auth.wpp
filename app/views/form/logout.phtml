@@ -6,11 +6,11 @@ use Chayka\Helpers\NlsHelper;
 <div class="form_screen screen_logout ng-cloak" data-ng-controller="logout" data-screen-title="<?php NlsHelper::__('header_logout_screen');?>" data-ng-show="isOpen">
     <h2><?php NlsHelper::__('header_logout_screen');?></h2>
     <form data-form-validator="validator" novalidate="novalidate">
-        <div class="form_box-comments">
+        <div class="form_hint">
             <?php NlsHelper::__('message_want_to_sign_out')?>
         </div>
         <div class="form_results">
-            <div data-spinner="spinner"></div>
+            <div data-spinner="spinner" class="form_spinner"></div>
             <div data-form-message class="form_message"></div>
         </div>
         <div class="form_buttons">

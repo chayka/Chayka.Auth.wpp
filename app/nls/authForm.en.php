@@ -3,10 +3,10 @@
 return array(
     'header_login_screen' => 'Sign in',
     'message_validate_email' => 'Invalid e-mail (e.g. %s)',
-    'label_email' => 'E-mail address',
+    'label_email' => 'Your email',
     'label_password' => 'Password',
     'header_join_screen' => 'Join us',
-    'label_username' => 'Your nickname',
+    'label_username' => 'Your name',
     'message_validate_username' => 'Only latin characters, digits and no spaces, please',
     'header_forgot_password_screen' => 'Forgot your password?',
     'message_forgot_password' => 'Enter your email address or username, and we will send you an email with instructions for resetting your password.',

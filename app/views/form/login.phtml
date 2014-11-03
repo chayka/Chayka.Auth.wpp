@@ -22,16 +22,16 @@ $areSocialsAvailable = $isFbApiAvailable;
                 <div class="or_common">или</div>
             </div>
         <?php endif;?>
-        <div class="form_field email_login" data-form-field="email" data-check-email="<?php NlsHelper::__('message_validate_email', 'member@'.Util::serverName())?>" data-check-required="<?php NlsHelper::__('message_required');?>">
+        <div class="form_field email_login stretch" data-form-field="email" data-check-email="<?php NlsHelper::__('message_validate_email', 'member@'.Util::serverName())?>" data-check-required="<?php NlsHelper::__('message_required');?>">
             <label><?php NlsHelper::__('label_email')?></label>
             <input type="email" data-ng-model="fields.email"/>
         </div>
-        <div class="form_field password" data-form-field="password" data-check-required="<?php NlsHelper::__('message_required');?>">
+        <div class="form_field password stretch" data-form-field="password" data-check-required="<?php NlsHelper::__('message_required');?>">
             <label><?php NlsHelper::__('label_password')?></label>
             <input type="password" data-ng-model="fields.password" />
         </div>
         <div class="form_results">
-            <div data-spinner="spinner"></div>
+            <div data-spinner="spinner" class="form_spinner"></div>
             <div data-form-message class="form_message"></div>
         </div>
         <div class="form_buttons">
