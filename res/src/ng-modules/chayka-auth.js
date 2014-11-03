@@ -252,13 +252,47 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
     .controller('password-reset', ['$scope', '$http', function($scope, $http){
         $scope.$parent.registerScreen('password-reset', $scope);
         $scope.isOpen = false;
+        $scoep.key = '';
+        $scope.fields = {
+            password1: '',
+            password2: ''
+        };
+
+        $scope.buttonResetPasswordClicked = function(event){
+            //event.preventDefault();
+            console.dir({scope: $scope});
+            if($scope.validator.validateFields()){
+                ajax.post('/api/auth/reset-password',
+                    {
+                        key: $scope.key,
+                        password1: $scope.fields.password1,
+                        password2: $scope.fields.password2
+                    },
+                    {
+                        spinner: $scope.spinner,
+                        spinnerMessage: $translate.instant('message_spinner_reset_password'),
+                        showMessage: false,
+                        formValidator: $scope.validator,
+                        errorMessage: $translate.instant('message_error_wrong_code'),
+                        success: function(data){
+                            console.dir({'data': data});
+                            //this.showLoginScreen();
+                            $scope.validator.showMessage($translate.instant('message_password_set_signing_in'));
+                            $timeout(function(){
+                                $scope.modal.hide();
+                            }, 2000);
+                            $scope.$emit('Chayka.Users.currentUserChanged', data.payload);
+                        }
+                    });
+            }
+        };
 
     }])
     .controller('password-change', ['$scope', '$timeout', '$translate', 'ajax', function($scope, $timeout, $translate, ajax){
         $scope.$parent.registerScreen('password-change', $scope);
         $scope.isOpen = false;
         $scope.fields = {
-            oldPassword: '',
+            password: '',
             password1: '',
             password2: ''
         };
@@ -304,6 +338,14 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
             link: function($scope, element, attrs){
                 $scope.authMode = attrs.authMode;
                 console.dir({'auth.directive': $scope});
+            }
+        };
+    })
+    .directive('authKey', function(){
+        return {
+            restrict: 'A',
+            link: function($scope, element, attrs){
+                $scope.key = attrs.authKey;
             }
         };
     })

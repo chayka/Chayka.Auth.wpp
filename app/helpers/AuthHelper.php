@@ -17,12 +17,31 @@ use Chayka\WP\Models\UserModel;
 use WP_Error;
 
 class AuthHelper {
+
+    public static function addForm(){
+        wp_enqueue_script('chayka-auth');
+        wp_enqueue_style('chayka-auth');
+        NlsHelper::load('authForm');
+        $view = Plugin::getView();
+        Plugin::getInstance()->addAction('wp_footer', function() use ($view){
+            Util::sessionStart();
+            $key = Util::getItem($_SESSION, 'activationkey');
+            if($key){
+                $view->assign('key', $key);
+                $view->assign('screen', 'password-reset');
+                unset($_SESSION['activationkey']);
+            }
+            $view->assign('authMode', OptionsHelper::getOption('authMode', 'reload'));
+            echo $view->render('form/form.phtml');
+        });
+    }
+
     public static function hideActivationKey(){
         Util::sessionStart();
-        if(!empty($_GET['activationkey']) && !empty($_GET['login'])){
+        if(!empty($_GET['activationkey'])){
             $_SESSION['activationkey'] = $_GET['activationkey'];
-            $_SESSION['activationlogin'] = $_GET['login'];
-            $_SESSION['activationpopup'] = true;
+//            $_SESSION['activationlogin'] = $_GET['login'];
+//            $_SESSION['activationpopup'] = true;
             session_commit();
             HttpHeaderHelper::redirect('/');
         }
@@ -31,30 +50,22 @@ class AuthHelper {
     /**
      * Check activation key.
      *
-     * @param $key
-     * @param $login
+     * @param string $key
      * @return UserModel
      */
-    public static function checkActivationKey($key, $login){
+    public static function checkActivationKey($key){
         $wpdb = DbHelper::wpdb();
 
         $key = preg_replace('/[^a-z0-9]/i', '', $key);
 
-        if (empty($key) || !is_string($key)) {
-            return new WP_Error('invalid_key', NlsHelper::_('Invalid key'));
-        }
-        if (empty($login) || !is_string($login)) {
-            return new WP_Error('invalid_key', NlsHelper::_('Invalid key'));
-        }
-        $user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE user_activation_key = %s AND user_login = %s", $key, $login));
+        $userId = 0;
+        sscanf($key, '%20s%x', $key, $userId);
+        $user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE ID = %d", $userId));
 
-        if (empty($user)) {
-            unset($_SESSION['activationkey']);
-            unset($_SESSION['activationlogin']);
-            unset($_SESSION['activationpopup']);
-            session_commit();
+        if(!$user || md5($key) !== $user->user_activation_key){
             return null;
         }
+
         return UserModel::unpackDbRecord($user);
     }
 
@@ -66,15 +77,10 @@ class AuthHelper {
      */
     public static function ensureActivationKey($user){
         $wpdb = DbHelper::wpdb();
-        $key = $wpdb->get_var($wpdb->prepare("SELECT user_activation_key FROM $wpdb->users WHERE ID = %d", $user->getId()));
-        if (empty($key)) {
-            // Generate something random for a key...
-            $key = wp_generate_password(20, false);
-            do_action('retrieve_password_key', $user->getLogin(), $key);
-            // Now insert the new md5 key into the db
-            DbHelper::update(array('user_activation_key' => $key), $wpdb->users,  array('ID' => $user->getId()));
-        }
-
+        // Generate something random for a key...
+        $key = wp_generate_password(20, false);
+        // Now insert the new md5 key into the db
+        DbHelper::update(array('user_activation_key' => md5($key)), $wpdb->users,  array('ID' => $user->getId()));
         return $key;
     }
 
@@ -98,9 +104,9 @@ class AuthHelper {
      */
     public static function changePassword($user, $password) {
         wp_set_password($password, $user->getId());
-        unset($_SESSION['activationkey']);
-        unset($_SESSION['activationlogin']);
-        unset($_SESSION['activationpopup']);
+//        unset($_SESSION['activationkey']);
+//        unset($_SESSION['activationlogin']);
+//        unset($_SESSION['activationpopup']);
         wp_signon(array(
             'user_login' => $user->getLogin(),
             'user_password' => $password

@@ -202,14 +202,8 @@ class AuthController extends Controller{
     }
 
     public function resetPasswordAction() {
-        $key = InputHelper::getParam('key');
-        $login = InputHelper::getParam('login');
+//        $login = InputHelper::getParam('login');
 
-        $user = AuthHelper::checkActivationKey($key, $login);
-
-        if(!$user){
-            JsonHelper::respondError('Invalid key', 'invalid_key');
-        }
 
         InputHelper::checkParam('pass1')->required();
         InputHelper::checkParam('pass2')->required();
@@ -222,29 +216,37 @@ class AuthController extends Controller{
         if ($pass1 != $pass2) {
             $errors = new WP_Error('passwords_mismatch', NlsHelper::_('error_passwords_mismatch'));
             JsonHelper::respondErrors($errors);
-        } else {
-            AuthHelper::changePassword($user, $pass1);
-            EmailHelper::newPassword($user, $pass1);
-            JsonHelper::respond($user);
         }
+
+        $key = InputHelper::getParam('key');
+
+        $user = AuthHelper::checkActivationKey($key);
+
+        if(!$user){
+            JsonHelper::respondError(NlsHelper::_('invalid_key'), 'invalid_key');
+        }
+
+        AuthHelper::changePassword($user, $pass1);
+        EmailHelper::newPassword($user, $pass1);
+        JsonHelper::respond($user);
 
     }
 
     public function changePasswordAction() {
-        $pass = InputHelper::getParam('pass');
+        $pass = InputHelper::getParam('password');
         $user = UserModel::currentUser();
         if (!AuthHelper::checkPassword($user, $pass)) {
             $errors = new WP_Error('invalid_password', NlsHelper::_('error_invalid_password'));
             JsonHelper::respondErrors($errors);
         }
 
-        InputHelper::checkParam('pass1')->required();
-        InputHelper::checkParam('pass2')->required();
+        InputHelper::checkParam('password1')->required();
+        InputHelper::checkParam('password2')->required();
 
         InputHelper::validateInput(true);
 
-        $pass1 = InputHelper::getParam('pass1');
-        $pass2 = InputHelper::getParam('pass2');
+        $pass1 = InputHelper::getParam('password1');
+        $pass2 = InputHelper::getParam('password2');
 
         if ($pass1 && $pass2) {
             if ($pass1 != $pass2) {

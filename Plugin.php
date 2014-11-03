@@ -16,7 +16,9 @@ class Plugin extends WP\Plugin{
         self::$instance = $plugin = new self(__FILE__, array(
             'auth'
         ));
-        $plugin->addAuthForm();
+
+        AuthHelper::addForm();
+//        $plugin->addAuthForm();
     }
 
 
@@ -79,15 +81,15 @@ class Plugin extends WP\Plugin{
 
     }
 
-    public function addAuthForm(){
-        wp_enqueue_script('chayka-auth');
-        wp_enqueue_style('chayka-auth');
-        NlsHelper::load('authForm');
-        $view = self::getView();
-        $this->addAction('wp_footer', function() use ($view){
-            $view->authMode = OptionsHelper::getOption('authMode', 'reload');
-            echo $view->render('form/form.phtml');
-        });
-    }
+//    public function addAuthForm(){
+//        wp_enqueue_script('chayka-auth');
+//        wp_enqueue_style('chayka-auth');
+//        NlsHelper::load('authForm');
+//        $view = self::getView();
+//        $this->addAction('wp_footer', function() use ($view){
+//            $view->authMode = OptionsHelper::getOption('authMode', 'reload');
+//            echo $view->render('form/form.phtml');
+//        });
+//    }
 
 }

@@ -10,9 +10,8 @@ use Chayka\Helpers\NlsHelper;
 
 $this->declareVars(array(
     'titleLocation'=>'header',
-    'popup'=>'',
-    'screen'=>'password-reset',
-//    'key'=>'',
+    'screen'=>'login',
+    'key'=>'',
 //    'login'=>'',
     'authMode'=>'reload', // reload||event
     'screens'=>array(
@@ -29,7 +28,7 @@ $isFbApiAvailable = class_exists('Chayka\\Facebook\\FacebookHelper');
 $areSocialsAvailable = $isFbApiAvailable;
 ?>
 <div id="chayka-auth" class="ng-cloak" data-ng-controller="form" data-auth-screen="<?php echo $this->screen;?>" data-auth-mode="<?php echo $this->authMode;?>">
-    <div data-modal="modal" data-modal-show="<?php echo $this->popup;?>" >
+    <div data-modal="modal" data-modal-show="<?php echo !!$$this->key;?>" >
 <?php
     foreach($this->screens as $screen){
         echo $this->render('form/'.$screen.'.phtml');
