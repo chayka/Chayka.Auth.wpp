@@ -10,36 +10,42 @@ use Chayka\Helpers\NlsHelper;
 
 $this->declareVars(array(
     'titleLocation'=>'header',
-    'screen'=>'login',
+    'screen'=>'logout',
     'key'=>'',
 //    'login'=>'',
     'authMode'=>'reload', // reload||event
+    'urlLoggedIn' => '',
+    'urlLoggedOut' => '',
+    'navRendered' => false,
     'screens'=>array(
-        'join',
-        'login',
-        'logout',
-        'password-change',
-        'password-reset',
-        'password-forgot'
+        'login' => false,
+        'join' => false,
+        'logout' => false,
+        'password-change' => false,
+        'password-reset' => false,
+        'password-forgot' => false
     )
 ));
 
 $isFbApiAvailable = class_exists('Chayka\\Facebook\\FacebookHelper');
 $areSocialsAvailable = $isFbApiAvailable;
 ?>
-<div id="chayka-auth" class="ng-cloak" data-ng-controller="form" data-auth-screen="<?php echo $this->screen;?>" data-auth-mode="<?php echo $this->authMode;?>">
+<div id="chayka-auth" class="ng-cloak chayka-auth" data-ng-controller="form" data-auth-screen="<?php echo $this->screen;?>" data-auth-mode="<?php echo $this->authMode;?>" data-auth-url-logged-in="<?php echo $this->urlLoggedIn;?>" data-auth-url-logged-out="<?php echo $this->urlLoggedOut;?>">
     <div data-modal="modal" data-modal-show="<?php echo $this->key?'1':'';?>" >
 <?php
-    foreach($this->screens as $screen){
-        echo $this->render('form/'.$screen.'.phtml');
+    foreach($this->screens as $screen => $rendered){
+        if(!$rendered){
+            echo $this->render('form/'.$screen.'.phtml');
+        }
     }
 ?>
-    <div class="nav_links" data-ng-show="screen === 'login' || screen === 'join' || screen === 'password-forgot' || screen === 'password-reset'">
-        <a data-ng-click="showLoginScreen();" data-tap-disabled="false" data-ng-hide="screen === 'login'" class="link" ><?php NlsHelper::__('link_login');?></a>
-        <a data-ng-click="showJoinScreen();" data-ng-hide="screen === 'join'" class="link" ><?php NlsHelper::__('link_join');?></a>
-        <a data-ng-click="showForgotPasswordScreen();" data-ng-hide="screen === 'password-forgot'" class="link"><?php NlsHelper::__('link_forgot_password');?></a>
-    </div>
-    <div class="clearfloat"></div>
+<?php if(!$this->navRendered):?>
+        <div class="nav_links" data-ng-show="screen === 'login' || screen === 'join' || screen === 'password-forgot' || screen === 'password-reset'">
+            <a <?php if($this->screens['login']):?>href="<?php echo $this->screens['login'];?>"<?php else: ?>data-ng-click="showLoginScreen();"<?php endif;?> data-tap-disabled="false" data-ng-hide="screen === 'login'" class="link" ><?php NlsHelper::__('link_login');?></a>
+            <a <?php if($this->screens['join']):?>href="<?php echo $this->screens['join'];?>"<?php else: ?>data-ng-click="showJoinScreen();"<?php endif;?> data-ng-hide="screen === 'join'" class="link" ><?php NlsHelper::__('link_join');?></a>
+            <a <?php if($this->screens['password-forgot']):?>href="<?php echo $this->screens['password-forgot'];?>"<?php else: ?>data-ng-click="showForgotPasswordScreen();"<?php endif;?> data-ng-hide="screen === 'password-forgot'" class="link"><?php NlsHelper::__('link_forgot_password');?></a>
+        </div>
+<?php endif;?>
     </div>
 </div>
 <script>
@@ -49,6 +55,10 @@ $areSocialsAvailable = $isFbApiAvailable;
     (function($, angular){
         $(document).ready(function(){
             angular.bootstrap(document.getElementById('chayka-auth'), ['chayka-auth'])
+            var embedded = document.getElementById('chayka-auth-embedded');
+            if(embedded){
+                angular.bootstrap(embedded, ['chayka-auth'])
+            }
         });
     }(window.jQuery, window.angular));
 </script>

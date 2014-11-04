@@ -18,6 +18,7 @@ class Plugin extends WP\Plugin{
         ));
 
         $plugin->addSupport_UriProcessing();
+        $plugin->addSupport_ConsolePages();
 
         AuthHelper::addForm();
 //        $plugin->addAuthForm();
@@ -83,15 +84,15 @@ class Plugin extends WP\Plugin{
 
     }
 
-//    public function addAuthForm(){
-//        wp_enqueue_script('chayka-auth');
-//        wp_enqueue_style('chayka-auth');
-//        NlsHelper::load('authForm');
-//        $view = self::getView();
-//        $this->addAction('wp_footer', function() use ($view){
-//            $view->authMode = OptionsHelper::getOption('authMode', 'reload');
-//            echo $view->render('form/form.phtml');
-//        });
-//    }
+    public function registerConsolePages(){
+        $this->addConsoleSubPage('chayka-core', 'Auth', 'update_core', 'chayka-auth', '/admin-auth/');
+    }
+
+    public function registerShortcodes(){
+        $this->addShortcode('chayka_auth_login');
+        $this->addShortcode('chayka_auth_join');
+        $this->addShortcode('chayka_auth_forgot_password');
+    }
+
 
 }

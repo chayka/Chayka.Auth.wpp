@@ -1,8 +1,10 @@
 
-#chayka-auth{
+@form-width: 320px;
+
+.chayka-auth{
     .form_screen{
         padding: 0 1ex;
-        width: 320px;
+        width: @form-width;
 
         > h2{
             margin-top: 0;
@@ -53,10 +55,19 @@
 
     }
     .nav_links{
+        width: @form-width;
         text-align: right;
         .link{
             cursor: pointer;
             margin: 0 1ex;
         }
     }
+}
+
+#chayka-auth-embedded{
+    border: 1px solid #ddd;
+    width: (@form-width + 20px);
+    display: block;
+    margin: 0 auto;
+    padding: 10px;
 }

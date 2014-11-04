@@ -11,6 +11,6 @@ namespace Chayka\Auth;
 use Chayka\WP\Helpers;
 
 
-class OptionsHelper extends Helpers\OptionHelper{
+class OptionHelper extends Helpers\OptionHelper{
 
 } 

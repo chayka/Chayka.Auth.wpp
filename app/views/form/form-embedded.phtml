@@ -1,0 +1,25 @@
+<?php
+use Chayka\Helpers\NlsHelper;
+
+$this->declareVars(array(
+    'screen'=>'login',
+    'urlLoggedIn' => '',
+    'urlLoggedOut' => '',
+    'screens'=>array(
+        'login' => false,
+        'join' => false,
+        'password-forgot' => false
+    )
+));
+
+$isFbApiAvailable = class_exists('Chayka\\Facebook\\FacebookHelper');
+$areSocialsAvailable = $isFbApiAvailable;
+?>
+<div id="chayka-auth-embedded" class="ng-cloak chayka-auth " data-ng-controller="form" data-auth-screen="<?php echo $this->screen;?>" data-auth-mode="reload" data-auth-url-logged-in="<?php echo $this->urlLoggedIn;?>" data-auth-url-logged-out="<?php echo $this->urlLoggedOut;?>">
+    <?php echo $this->render('form/'.$this->screen.'.phtml'); ?>
+    <div class="nav_links" data-ng-show="screen === 'login' || screen === 'join' || screen === 'password-forgot' || screen === 'password-reset'">
+        <a href="<?php echo $this->screens['login']?$this->screens['login']:'#login'?>" data-tap-disabled="false" data-ng-hide="screen === 'login'" class="link" ><?php NlsHelper::__('link_login');?></a>
+        <a href="<?php echo $this->screens['join']?$this->screens['join']:'#join'?>" data-ng-hide="screen === 'join'" class="link" ><?php NlsHelper::__('link_join');?></a>
+        <a href="<?php echo $this->screens['password-forgot']?$this->screens['password-forgot']:'#forgot-password'?>" data-ng-hide="screen === 'password-forgot'" class="link"><?php NlsHelper::__('link_forgot_password');?></a>
+    </div>
+</div>

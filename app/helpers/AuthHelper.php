@@ -18,6 +18,47 @@ use WP_Error;
 
 class AuthHelper {
 
+    /**
+     * Each item can hold:
+     * - false: screen was not rendered as embedded
+     * - url to page with embedded form
+     * @var array
+     */
+    protected static $screens;
+
+    protected static $navRendered = false;
+
+    /**
+     * Get screen options loaded from db
+     *
+     * @return array
+     */
+    protected static function getScreens(){
+        if(!self::$screens){
+            self::$screens = array(
+                'join' => OptionHelper::getOption('urlJoin'),
+                'login' => OptionHelper::getOption('urlLogin'),
+                'logout' => false,
+                'password-change' => false,
+                'password-reset' => false,
+                'password-forgot' => OptionHelper::getOption('urlForgotPassword'),
+            );
+        }
+
+        return self::$screens;
+    }
+
+    public static function renderEmbeddedForm($screen){
+        NlsHelper::load('authForm');
+        $view = Plugin::getView();
+        $view->assign('screen', $screen);
+        $view->assign('screens', self::getScreens());
+        $view->assign('urlLoggedIn', OptionHelper::getOption('urlLoggedIn', ''));
+        $view->assign('urlLoggedOut', OptionHelper::getOption('urlLoggedOut', ''));
+        self::$navRendered = true;
+        echo $view->render('form/form-embedded.phtml');
+    }
+
     public static function addForm(){
         wp_enqueue_script('chayka-auth');
         wp_enqueue_style('chayka-auth');
@@ -31,7 +72,11 @@ class AuthHelper {
                 $view->assign('screen', 'password-reset');
                 unset($_SESSION['activationkey']);
             }
-            $view->assign('authMode', OptionsHelper::getOption('authMode', 'reload'));
+            $view->assign('screens', self::getScreens());
+            $view->assign('authMode', OptionHelper::getOption('authMode', 'reload'));
+            $view->assign('urlLoggedIn', OptionHelper::getOption('urlLoggedIn', ''));
+            $view->assign('urlLoggedOut', OptionHelper::getOption('urlLoggedOut', ''));
+            $view->assign('navRendered', self::$navRendered);
             echo $view->render('form/form.phtml');
         });
     }
