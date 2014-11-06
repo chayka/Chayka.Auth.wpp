@@ -16,6 +16,9 @@
   padding-top: .5ex;
   font-size: .8em;
 }
+.chayka-auth .form_screen > form > .form_field > .message a {
+  white-space: nowrap;
+}
 .chayka-auth .form_screen > form > .form_results {
   text-align: center;
   min-height: 30px;

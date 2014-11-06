@@ -55,51 +55,58 @@ class AuthController extends Controller{
         $login = InputHelper::getParam("login");
         $password = InputHelper::getParam("password", wp_generate_password(12, false));
 
-        $errors = new WP_Error();
-
-        $sanitized_user_login = sanitize_user($login);
-        $email = apply_filters('user_registration_email', $email);
-
-        // Check the username
-        if ($sanitized_user_login == '') {
-            $errors->add('empty_username', NlsHelper::_('error_empty_username'));
-        } elseif (!validate_username($login)) {
-            $errors->add('invalid_username', NlsHelper::_('error_invalid_username'));
-            $sanitized_user_login = '';
-        } elseif (username_exists($sanitized_user_login)) {
-            $errors->add('username_exists', NlsHelper::_('error_username_exists'));
+        $user = AuthHelper::registerUser($email, $login, $password);
+        if(is_wp_error($user)){
+            JsonHelper::respondErrors($user);
+        }else{
+            JsonHelper::respond($user);
         }
-
-        // Check the e-mail address
-        if ($email == '') {
-            $errors->add('empty_email', NlsHelper::_('error_empty_email'));
-        } elseif (!is_email($email)) {
-            $errors->add('invalid_email', NlsHelper::_('error_invalid_email'));
-            $email = '';
-        } elseif (email_exists($email)) {
-            $errors->add('email_exists', NlsHelper::_('error_email_exists'));
-        }
-
-        do_action('register_user', $sanitized_user_login, $email, $errors);
-
-        $errors = apply_filters('registration_errors', $errors, $sanitized_user_login, $email);
-
-        if (!$errors->get_error_code()) {
-            $user_pass = $password; //wp_generate_password(12, false);
-            $user_id = wp_create_user($sanitized_user_login, $user_pass, $email);
-            if ($user_id) {
-                update_user_option($user_id, 'default_password_nag', true, true); //Set up the Password change nag.
-                update_user_option($user_id, 'show_admin_bar_front', false, true); //
-
-                $user = UserModel::selectById($user_id);
-                EmailHelper::userRegistered($user, $user_pass);
-                JsonHelper::respond($user);
-            } else {
-                $errors->add('register_fail', NlsHelper::_('error_register_fail', get_option('admin_email')));
-            }
-        }
-        $errors = $this->translateErrors($errors);
-        JsonHelper::respondErrors($errors);
+//        $errors = new WP_Error();
+//
+//        $sanitized_user_login = sanitize_user($login);
+//        $email = apply_filters('user_registration_email', $email);
+//
+//        // Check the username
+//        if ($sanitized_user_login == '') {
+//            $errors->add('empty_username', NlsHelper::_('error_empty_username'));
+//        } elseif (!validate_username($login)) {
+//            $errors->add('invalid_username', NlsHelper::_('error_invalid_username'));
+//            $sanitized_user_login = '';
+//        } elseif (username_exists($sanitized_user_login)) {
+//            $errors->add('username_exists', NlsHelper::_('error_username_exists'));
+//        }
+//
+//        // Check the e-mail address
+//        if ($email == '') {
+//            $errors->add('empty_email', NlsHelper::_('error_empty_email'));
+//        } elseif (!is_email($email)) {
+//            $errors->add('invalid_email', NlsHelper::_('error_invalid_email'));
+//            $email = '';
+//        } elseif (email_exists($email)) {
+//            $errors->add('email_exists', NlsHelper::_('error_email_exists'));
+//        }
+//
+//        do_action('register_user', $sanitized_user_login, $email, $errors);
+//
+//        $errors = apply_filters('registration_errors', $errors, $sanitized_user_login, $email);
+//
+//        if (!$errors->get_error_code()) {
+//            $user_pass = $password; //wp_generate_password(12, false);
+//            $user_id = wp_create_user($sanitized_user_login, $user_pass, $email);
+//            if ($user_id) {
+//                update_user_option($user_id, 'default_password_nag', true, true); //Set up the Password change nag.
+//                update_user_option($user_id, 'show_admin_bar_front', false, true); //
+//
+//                $user = UserModel::selectById($user_id);
+//                $key = AuthHelper::ensureActivationKey($user);
+//                EmailHelper::userRegistered($user, $user_pass, $key);
+//                JsonHelper::respond($user);
+//            } else {
+//                $errors->add('register_fail', NlsHelper::_('error_register_fail', get_option('admin_email')));
+//            }
+//        }
+//        $errors = AuthHelper::translateErrors($errors);
+//        JsonHelper::respondErrors($errors);
     }
 
     public function loginAction() {
@@ -146,7 +153,7 @@ class AuthController extends Controller{
             JsonHelper::respond($user);
         }
 
-        $user = $this->translateErrors($user);
+        $user = AuthHelper::translateErrors($user);
         JsonHelper::respondErrors($user);
     }
 
@@ -176,7 +183,7 @@ class AuthController extends Controller{
         }
 
         if ($errors->get_error_code()) {
-            $errors = $this->translateErrors($errors);
+            $errors = AuthHelper::translateErrors($errors);
             JsonHelper::respondErrors($errors);
         }
 
@@ -190,7 +197,7 @@ class AuthController extends Controller{
             $errors = $allow;
         }
         if ($errors->get_error_code()) {
-            $errors = $this->translateErrors($errors);
+            $errors = AuthHelper::translateErrors($errors);
             JsonHelper::respondErrors($errors);
         }
 
@@ -259,43 +266,5 @@ class AuthController extends Controller{
             }
         }
     }
-
-    public function translateErrors(WP_Error $errors, $payload = array(), $httpResponseCode = 400) {
-        $newErrors = new WP_Error();
-        foreach ($errors->errors as $code => $error) {
-            switch ($code) {
-                case 'incorrect_password':
-                    $newMessage = NlsHelper::_('error_invalid_password');
-                    $code = "password";
-                    break;
-                case 'username_exists':
-                    $newMessage = NlsHelper::_('error_username_exists');
-                    $code = "name";
-                    break;
-                case 'email_exists':
-                    $newMessage = NlsHelper::_('error_email_exists');
-                    $code = "email";
-                    break;
-                case 'invalid_username':
-                    $newMessage = NlsHelper::_('error_invalid_combo');
-                    $code = "name";
-                    break;
-                case 'empty_username':
-                case 'empty_password':
-                case 'authentication_failed':
-                    break;
-                default:
-            }
-            if ($newMessage) {
-                $newErrors->add($code, $newMessage);
-//                $errors->errors[$code] = array($newMessage);
-            }else{
-                $newErrors->add($code, $error);
-            }
-        }
-
-        return $newErrors;
-    }
-
 
 } 

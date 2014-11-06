@@ -6,7 +6,12 @@
 <div>
     <h2>Ваши учетные данные:</h2>
     <dl><dt>email:</dt><dd><?php echo $this->user->getEmail();?></dd></dl>
+    <?php if($this->user->getEmail()!=$this->user->getLogin()):?>
     <dl><dt>псевдоним:</dt><dd><?php echo $this->user->getLogin();?></dd></dl>
+    <?php endif;?>
     <dl><dt>пароль:</dt><dd><?php echo $this->password;?></dd></dl>
     <div class="clearfloat"></div>
+</div>
+<div>
+    Чтобы изменить пароль перейдите по <a href="http://<?php echo $_SERVER['SERVER_NAME'].'?activationkey='.$this->activationKey . sprintf('%x', $this->user->getId());?>">ссылке</a>
 </div>

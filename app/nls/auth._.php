@@ -1,6 +1,6 @@
 <?php
 return array(
-    'error_email_exists' => 'Этот e-mail уже зарегистрирован.',
+    'error_email_exists' => 'Этот e-mail уже зарегистрирован. <a href="#forgot-password">Забыли пароль?</a>',
     'error_username_exists' => 'Это имя пользователя уже зарегистрировано.',
     'error_empty_username' =>'Введите логин.',
     'error_invalid_username' => 'Данный логин содержит запрещенные символы.',

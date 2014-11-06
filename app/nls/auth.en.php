@@ -1,6 +1,6 @@
 <?php
 return array(
-    'error_email_exists' => 'This email is already registered, please choose another one.',
+    'error_email_exists' => 'This email is already registered. <a href="#forgot-password">Forgot password?</a>',
     'error_username_exists' => 'This username is already registered, please choose another one.',
     'error_empty_username' =>'Please enter a username.',
     'error_invalid_username' => 'This username is invalid because it uses illegal characters. Please enter a valid username.',

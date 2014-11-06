@@ -23,10 +23,15 @@ class EmailHelper extends Email\EmailHelper{
     /**
      * @param UserModel $user
      * @param string $password
+     * @param string $activationKey
      */
-    public static function userRegistered($user, $password){
+    public static function userRegistered($user, $password, $activationKey){
         self::sendTemplate(NlsHelper::_('email_subject_user_registered', $_SERVER['SERVER_NAME']),
-            'email/user-registered.phtml', array('user' => $user, 'password' => $password),
+            'email/user-registered.phtml', array(
+                'user' => $user,
+                'password' => $password,
+                'activationKey' => $activationKey
+            ),
             $user->getEmail());
     }
 
