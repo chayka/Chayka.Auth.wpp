@@ -171,6 +171,9 @@ class AuthHelper {
         if(!$login){
             $login = $email;
         }
+        if($login == $email){
+            $login = str_replace('@', '.', $login);
+        }
         if(!$password){
             $password = wp_generate_password(12, false);
         }
