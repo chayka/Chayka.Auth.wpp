@@ -1,10 +1,13 @@
+@import "../../lib/lesshat/build/lesshat";
 
-@form-width: 320px;
+
+@form-width: 300px;
 
 .chayka-auth{
     .form_screen{
         padding: 0 1ex;
         width: @form-width;
+        .box-sizing(border-box);
 
         > h2{
             margin-top: 0;
@@ -70,8 +73,8 @@
 
 #chayka-auth-embedded{
     border: 1px solid #ddd;
-    width: (@form-width + 20px);
+    width: (@form-width);
     display: block;
     margin: 0 auto;
-    padding: 10px;
+    padding: 10px 0;
 }

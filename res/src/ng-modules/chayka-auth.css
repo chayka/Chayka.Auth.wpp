@@ -1,6 +1,9 @@
 .chayka-auth .form_screen {
   padding: 0 1ex;
-  width: 320px;
+  width: 300px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .chayka-auth .form_screen > h2 {
   margin-top: 0;
@@ -35,7 +38,7 @@
   margin-bottom: 0;
 }
 .chayka-auth .nav_links {
-  width: 320px;
+  width: 300px;
   text-align: right;
 }
 .chayka-auth .nav_links .link {
@@ -44,8 +47,8 @@
 }
 #chayka-auth-embedded {
   border: 1px solid #ddd;
-  width: 340px;
+  width: 300px;
   display: block;
   margin: 0 auto;
-  padding: 10px;
+  padding: 10px 0;
 }
