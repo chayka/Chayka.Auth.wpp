@@ -2,13 +2,14 @@
 
 angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners', 'chayka-ajax',
     'chayka-translate', 'chayka-utils'])
-    .controller('form', ['$scope', '$timeout', '$translate', 'ajax', 'modals', 'utils', function($scope, $timeout, $translate, ajax, modals, _){
+    .controller('form', ['$scope', '$window', '$timeout', '$translate', 'ajax', 'modals', 'utils', function($scope, $window, $timeout, $translate, ajax, modals, _){
         console.log('auth.controller');
         //$scope.modal = null;
         $scope.screen = '';
         $scope.authMode = 'reload';
         $scope.urlLoggedIn = '';
         $scope.urlLoggedOut = '';
+        $scope.screenUrls = {};
 
         var screens = {};
         var $ = angular.element;
@@ -25,7 +26,11 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
                 $scope.hideModal();
             }, 2000);
             if('reload' === $scope.authMode){
-                if($scope.urlLoggedIn && user.id){
+                if(user.id && $window.localStorage && $window.localStorage.getItem('Chayka.Auth.urlLoggedIn')){
+                    var url = $window.localStorage.getItem('Chayka.Auth.urlLoggedIn');
+                    $window.localStorage.setItem('Chayka.Auth.urlLoggedIn', '');
+                    document.location = url;
+                }else if($scope.urlLoggedIn && user.id){
                     document.location = $scope.urlLoggedIn;
                 }else if($scope.urlLoggedIn && !user.id){
                     document.location = $scope.urlLoggedOut;
@@ -48,7 +53,8 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
             //screenScope.modal = $scope.modal;
         };
 
-        $scope.showScreen = function(screen){
+        $scope.showScreen = function(screen, embedded){
+            console.dir({screensConfig: $scope.screenUrls});
             if(screens[screen]) {
                 if ($scope.screen ) {
                     screens[$scope.screen].isOpen = false;
@@ -58,30 +64,39 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
                 if (!screens[screen].$$phase) {
                     screens[screen].$apply();
                 }
+                return true;
+            }else if(embedded && $scope.screenUrls[screen]){
+                if('login' === screen && $window.localStorage){
+                    $window.localStorage.setItem('Chayka.Auth.urlLoggedIn', $window.location.toString());
+                }
+                $window.location = $scope.screenUrls[screen];
             }
+
+            return false;
             //$scope.$broadcast('screen', screen);
         };
 
-        $scope.openScreen = function(screen){
-            $scope.showScreen(screen);
-            $scope.showModal();
-            $scope.$apply();
+        $scope.openScreen = function(screen, embedded){
+            if($scope.showScreen(screen, embedded)){
+                $scope.showModal();
+                $scope.$apply();
+            }
         };
 
-        $scope.showLoginScreen = function(){
-            $scope.showScreen('login');
+        $scope.showLoginScreen = function(embedded){
+            $scope.showScreen('login', embedded);
         };
 
-        $scope.openLoginScreen = function(){
-            $scope.openScreen('login');
+        $scope.openLoginScreen = function(embedded){
+            $scope.openScreen('login', embedded);
         };
 
-        $scope.showJoinScreen = function(){
-            $scope.showScreen('join');
+        $scope.showJoinScreen = function(embedded){
+            $scope.showScreen('join', embedded);
         };
 
-        $scope.openJoinScreen = function(){
-            $scope.openScreen('join');
+        $scope.openJoinScreen = function(embedded){
+            $scope.openScreen('join', embedded);
         };
 
         $scope.showLogoutScreen = function(){
@@ -92,8 +107,8 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
             $scope.openScreen('logout');
         };
 
-        $scope.showForgotPasswordScreen = function(){
-            $scope.showScreen('password-forgot');
+        $scope.showForgotPasswordScreen = function(embedded){
+            $scope.showScreen('password-forgot', embedded);
         };
 
         $scope.openForgotPasswordScreen = function(){
@@ -124,17 +139,19 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
             switch(code){
                 case 'auth_required':
                     message = message || $translate.instant('message_auth_required');//'Для выполнения данной операции необходимо авторизоваться на сайте';
-                    this.onUserChanged(payload);
+                    if('reload' !== $scope.authMode) {
+                        $scope.onUserChanged(payload);
+                    }
                     modals.show({
                         content: message,
                         title: $translate.instant('dialog_title_auth_required'),
                         buttons: [
                             {text: $translate.instant('button_stay_anonymous')},
                             {text: $translate.instant('button_sign_up')/*'Зарегистрироваться'*/, click: function(){
-                                $scope.openJoinScreen();
+                                $scope.openJoinScreen(true);
                             }},
                             {text: $translate.instant('button_sign_in')/*'Войти'*/, click: function(){
-                                $scope.openLoginScreen();
+                                $scope.openLoginScreen(true);
                             }}
                         ]
                     });
