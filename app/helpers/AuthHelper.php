@@ -99,7 +99,6 @@ class AuthHelper {
      * @return UserModel
      */
     public static function checkActivationKey($key){
-        $wpdb = DbHelper::wpdb();
 
         $key = preg_replace('/[^a-z0-9]/i', '', $key);
 
@@ -215,6 +214,8 @@ class AuthHelper {
                 update_user_option($user_id, 'show_admin_bar_front', false, true); //
 
                 $user = UserModel::selectById($user_id);
+                $user->setRole(OptionHelper::getOption('newUserRole', 'subscriber'));
+                $user->update();
                 $key = AuthHelper::ensureActivationKey($user);
                 EmailHelper::userRegistered($user, $user_pass, $key);
                 return $user;

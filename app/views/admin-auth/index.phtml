@@ -3,25 +3,30 @@
 <div data-ng-app="chayka-options-form">
     <div data-ng-controller="optionsForm" data-ng-init="namespace = 'Chayka.Auth'">
         <form data-form-validator="validator" novalidate="novalidate">
-            <div class="form_field" data-form-field="authMode">
-                <label>SMTP Auth</label><select data-ng-init="options.authMode='reload'; authOptions = {'reload': 'Page Reload', 'event': 'Publish Event'}" data-ng-model="options.authMode" data-ng-options="key as value for (key, value) in authOptions" ></select>
+            <div class="form_field stretch" data-form-field="newUserRole">
+                <label>New User Role</label><select data-ng-init="options.newUserRole='subscriber'; userRoles = {'subscriber': '1. Subscriber', 'contributor': '2. Contributor', 'author': '3. Author', 'editor': '4. Editor', 'administrator':'5. Administrator'}" data-ng-model="options.newUserRole" data-ng-options="key as value for (key, value) in userRoles | orderBy: value"  title="New User Role"></select>
             </div>
-            <div class="form_field" data-form-field="urlLogin">
-                <label>Login url</label><input type="text" data-ng-init="options.urlLogin=''" data-ng-model="options.urlLogin"/>
+            <div class="form_field stretch" data-form-field="authMode">
+                <label>Auth Mode</label><select data-ng-init="options.authMode='reload'; authOptions = {'reload': 'Page Reload', 'event': 'Publish Event'}" data-ng-model="options.authMode" data-ng-options="key as value for (key, value) in authOptions"  title="Auth Mode"></select>
             </div>
-            <div class="form_field" data-form-field="urlJoin">
-                <label>Join url</label><input type="text" data-ng-init="options.urlJoin=''" data-ng-model="options.urlJoin"/>
+            <div class="form_field fullsize" data-form-field="urlLogin">
+                <label>Login url</label><input type="text" data-ng-init="options.urlLogin=''" data-ng-model="options.urlLogin" title="Login url"/>
             </div>
-            <div class="form_field" data-form-field="urlForgotPassword">
-                <label>Forgot password url</label><input type="text" data-ng-init="options.urlForgotPassword=''" data-ng-model="options.urlForgotPassword"/>
+            <div class="form_field fullsize" data-form-field="urlJoin">
+                <label>Join url</label><input type="text" data-ng-init="options.urlJoin=''" data-ng-model="options.urlJoin" title="Join url"/>
             </div>
-            <div class="form_field" data-form-field="urlLoggedIn">
-                <label>Logged in url</label><input type="text" data-ng-init="options.urlLoggedIn=''" data-ng-model="options.urlLoggedIn"/>
+            <div class="form_field fullsize" data-form-field="urlForgotPassword">
+                <label>Forgot password url</label><input type="text" data-ng-init="options.urlForgotPassword=''" data-ng-model="options.urlForgotPassword" title="Forgot password url"/>
             </div>
-            <div class="form_field" data-form-field="urlLoggedOut">
-                <label>Logged out url</label><input type="text" data-ng-init="options.urlLoggedOut=''" data-ng-model="options.urlLoggedOut"/>
+            <div class="form_field fullsize" data-form-field="urlLoggedIn">
+                <label>Logged in url</label><input type="text" data-ng-init="options.urlLoggedIn=''" data-ng-model="options.urlLoggedIn" title="Logged in url"/>
             </div>
-            <button data-ng-click="saveOptions();">Save</button>
+            <div class="form_field fullsize" data-form-field="urlLoggedOut">
+                <label>Logged out url</label><input type="text" data-ng-init="options.urlLoggedOut=''" data-ng-model="options.urlLoggedOut" title="Logged out url"/>
+            </div>
+            <div class="buttons">
+                <button class="button button-primary button-large" data-ng-click="saveOptions();">Save</button>
+            </div>
         </form>
     </div>
 </div>

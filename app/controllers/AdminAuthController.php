@@ -14,6 +14,7 @@ class AdminAuthController extends Controller{
 
     public function init(){
         wp_enqueue_script('chayka-options-form');
+        wp_enqueue_style('chayka-options-form');
     }
 
     public function indexAction(){
