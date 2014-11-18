@@ -2,7 +2,7 @@
 
 angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners', 'chayka-ajax',
     'chayka-translate', 'chayka-utils'])
-    .controller('form', ['$scope', '$window', '$timeout', '$translate', 'ajax', 'modals', 'utils', function($scope, $window, $timeout, $translate, ajax, modals, _){
+    .controller('form', ['$scope', '$window', '$timeout', '$translate', 'ajax', 'modals', 'utils', 'auth', function($scope, $window, $timeout, $translate, ajax, modals, utils){
         console.log('auth.controller');
         //$scope.modal = null;
         $scope.screen = '';
@@ -15,7 +15,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
         var $ = angular.element;
 
 
-        $scope.user = _.ensure('Chayka.Users.currentUser');
+        $scope.user = utils.ensure('Chayka.Users.currentUser');
 
         $scope.onUserChanged = function(user){
             if(!user){
@@ -119,6 +119,27 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
             $scope.showScreen('password-change');
         };
 
+        $scope.openChangePasswordScreen = function(){
+            $scope.openScreen('password-change');
+        };
+
+        $scope.showAskPasswordScreen = function(){
+            $scope.showScreen('password-ask');
+        };
+
+        $scope.openAskPasswordScreen = function(message, url, data, callback){
+            var askScope = screens['password-ask'];
+            if(askScope){
+                if(message){
+                    askScope.message = message;
+                }
+                askScope.url = url;
+                askScope.data = data;
+                askScope.callback = callback;
+            }
+            $scope.openScreen('password-ask');
+        };
+
         $scope.showModal = function(){
             if($scope.modal){
                 $scope.modal.show();
@@ -129,10 +150,6 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
             if($scope.modal){
                 $scope.modal.hide();
             }
-        };
-
-        $scope.openChangePasswordScreen = function(){
-            $scope.openScreen('password-change');
         };
 
         ajax.addErrorHandler('Chayka.Auth', function(code, message, payload){
@@ -194,7 +211,10 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
             .bind('Chayka.Auth.join', $scope.openJoinScreen)
             .bind('Chayka.Auth.logout', $scope.openLogoutScreen)
             .bind('Chayka.Auth.forgotPassword', $scope.openForgotPasswordScreen)
-            .bind('Chayka.Auth.changePassword', $scope.openChangePasswordScreen);
+            .bind('Chayka.Auth.changePassword', $scope.openChangePasswordScreen)
+            .bind('Chayka.Auth.askPassword', function(e, message, url, data, callback){
+                $scope.openAskPasswordScreen(message, url, data, callback);
+            });
         //$scope.modal.show();
     }])
     .controller('login', ['$scope', '$translate','ajax', function($scope, $translate, ajax){
@@ -409,12 +429,55 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
             }
         };
     }])
+    .controller('password-ask', ['$scope', '$timeout', '$translate', 'ajax', function($scope, $timeout, $translate, ajax){
+        $scope.$parent.registerScreen('password-ask', $scope);
+        $scope.isOpen = false;
+        $scope.spinner = null;
+
+        $scope.message = $translate.instant('message_confirm_password');
+        $scope.data = {};
+        $scope.url = '/api/no-op/';
+        $scope.callback = function(){};
+
+        $scope.fields = {
+            password: ''
+        };
+
+        $scope.buttonConfirmPasswordClicked = function(){
+            console.dir({scope: $scope});
+            var data = angular.extend({}, $scope.data, $scope.fields);
+            var callback = $scope.callback;
+            if($scope.validator.validateFields()){
+                ajax.post($scope.url,
+                    data,
+                    {
+                        spinner: $scope.spinner,
+                        spinnerMessage: $translate.instant('message_spinner_confirm_password'),
+                        showMessage: false,
+                        formValidator: $scope.validator,
+                        //errorMessage: $translate.instant('message_error_confirm_password'),
+                        //successMessage: $translate.instant('message_password_confirmed'),
+                        scope: $scope,
+                        success: function(data, status, headers, config){
+                            console.dir({'data': data});
+                            $scope.fields.password = '';
+                            if(callback){
+                                callback(data, status, headers, config);
+                            }
+                            $timeout(function(){
+                                $scope.$parent.hideModal();
+                            }, 2000);
+                        }
+                    });
+            }
+        };
+    }])
     .directive('authScreen', function(){
         return {
             restrict: 'A',
             link: function($scope, element, attrs){
                 console.dir({'auth.directive': $scope});
-                $scope.showScreen(attrs.authScreen);
+                $scope.showScreen(attrs['authScreen']);
             }
         };
     })
@@ -422,7 +485,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
         return {
             restrict: 'A',
             link: function($scope, element, attrs){
-                $scope.authMode = attrs.authMode;
+                $scope.authMode = attrs['authMode'];
                 console.dir({'auth.directive': $scope});
             }
         };
@@ -431,7 +494,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
         return {
             restrict: 'A',
             link: function($scope, element, attrs){
-                $scope.key = attrs.authKey;
+                $scope.key = attrs['authKey'];
             }
         };
     })
@@ -439,7 +502,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
         return {
             restrict: 'A',
             link: function($scope, element, attrs){
-                $scope.urlLoggedIn = attrs.authUrlLoggedIn;
+                $scope.urlLoggedIn = attrs['authUrlLoggedIn'];
             }
         };
     })
@@ -447,37 +510,65 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
         return {
             restrict: 'A',
             link: function($scope, element, attrs){
-                $scope.urlLoggedOut = attrs.authUrlLoggedOut;
+                $scope.urlLoggedOut = attrs['authUrlLoggedOut'];
             }
         };
     })
+    .factory('auth', ['utils', function(utils){
+        var $ = angular.element;
+
+        return utils.ensure('Chayka.Auth', {
+
+            openLoginScreen: function (embedded) {
+                $(document).trigger('Chayka.Auth.login', [embedded]);
+            },
+
+            openJoinScreen: function (embedded) {
+                $(document).trigger('Chayka.Auth.join', [embedded]);
+            },
+
+            openForgotPasswordScreen: function(embedded){
+                $(document).trigger('Chayka.Auth.forgotPassword', [embedded]);
+            },
+
+            openChangePasswordScreen: function(){
+                $(document).trigger('Chayka.Auth.changePassword');
+            },
+
+            openAskPasswordScreen: function(message, url, data, callback){
+                $(document).trigger('Chayka.Auth.askPassword', [message, url, data, callback]);
+            }
+        });
+    }])
     .config(['$translateProvider', function($translateProvider) {
 
         // Adding a translation table for the English language
         $translateProvider.translations('en-US', {
-            'header_default': 'Authentification',
+            'header_default': 'Authentication',
             'message_spinner_sign_in': 'Signing in...',
             'message_welcome': 'Signed in!',
-            'message_error_auth_failed': 'Error: authentification failed',
+            'message_error_auth_failed': 'Error: authentication failed',
             'message_spinner_sign_up': 'Signing up...',
             'message_signed_up': 'Registration successfully completed. We\'ve sent you an e-mail with credentials for your account. Don\'t forget to check your SPAM folder.',
             'message_error_sign_up_failed': 'Error: registration failed',
             'message_spinner_validating_email': 'Validating e-mail address...',
             'message_change_pass_code_sent': 'We\'ve sent you an e-mail with password reset link. Please follow that link to set new password. Don\'t forget to check your SPAM folder.',
-            'message_error_password_recovery': 'Error: pasword was not recoverd',
+            'message_error_password_recovery': 'Error: password was not recovered',
             'message_spinner_reset_password': 'Changing password...',
             'message_password_set_signing_in': 'Your password has been changed, signing in.',
             'message_error_wrong_code': 'Invalid activation code, please repeat password reset procedure once again.',
             'message_spinner_change_password': 'Changing password...',
             'message_password_changed': 'Your password has been changed',
-            'message_error_change_password': 'Error: your pasword was not changed',
+            'message_error_change_password': 'Error: your password was not changed',
             'message_spinner_signout': 'Signing out...',
             'message_signed_out': 'Signed out, see you!',
             'message_error_signing_out': 'Error: sign out failure',
-            'message_error_email_exists': 'This e-mail address is allready registered.',
-            'message_error_username_exists': 'This username is allready registered.',
-            'message_spinner_validating_name': 'Validationg username...',
-            'message_auth_required': 'This operation is permited for registered users only',
+            'message_error_email_exists': 'This e-mail address is already registered.',
+            'message_error_username_exists': 'This username is already registered.',
+            'message_spinner_validating_name': 'Validating username...',
+            'message_auth_required': 'This operation is permitted for registered users only',
+            'message_confirm_password': 'You need to confirm your password in order to proceed',
+            'message_spinner_confirm_password': 'Validating password...',
             'dialog_title_auth_required': 'Authorization required',
             'button_stay_anonymous': 'Stay anonymous',
             'button_sign_up': 'Sign up',
@@ -508,6 +599,8 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
             'message_error_email_exists': 'Этот e-mail уже зарегистрирован.',
             'message_error_username_exists': 'Это имя пользователя уже зарегистрировано.',
             'message_spinner_validating_name': 'Проверка имени...',
+            'message_confirm_password': 'Для выполнения данной операции Вам необходимо ввести ваш пароль',
+            'message_spinner_confirm_password': 'Проверка пароля...',
             'message_auth_required': 'Для выполнения данной операции необходимо авторизоваться на сайте',
             'dialog_title_auth_required': 'Требуется авторизация',
             'button_stay_anonymous': 'Продолжить анонимно',

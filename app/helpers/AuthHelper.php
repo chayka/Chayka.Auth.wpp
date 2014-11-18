@@ -9,8 +9,11 @@
 namespace Chayka\Auth;
 
 
+use Chayka\Helpers\InputHelper;
+use Chayka\Helpers\JsonHelper;
 use Chayka\Helpers\Util;
 use Chayka\Helpers\HttpHeaderHelper;
+use Chayka\WP\Helpers\AclHelper;
 use Chayka\WP\Helpers\DbHelper;
 //use Chayka\WP\Helpers\NlsHelper;
 use Chayka\WP\Models\UserModel;
@@ -42,6 +45,7 @@ class AuthHelper {
                 'password-change' => false,
                 'password-reset' => false,
                 'password-forgot' => OptionHelper::getOption('urlForgotPassword'),
+                'password-ask' => false,
             );
         }
 
@@ -130,11 +134,14 @@ class AuthHelper {
     /**
      * Check if credentials are ok
      *
-     * @param UserModel $user
      * @param string $password
+     * @param UserModel $user
      * @return bool
      */
-    public static function checkPassword($user, $password) {
+    public static function checkPassword($password, $user = null) {
+        if(!$user){
+            $user = UserModel::currentUser();
+        }
         $user = wp_authenticate( $user->getLogin(), $password );
         return !is_wp_error($user);
     }
@@ -225,6 +232,35 @@ class AuthHelper {
         }
         $errors = self::translateErrors($errors);
         return $errors;
+    }
+
+    /**
+     * This function is to be used for api password check.
+     * Should be used together with JS Chayka.Auth.openAskPasswordScreen();
+     *
+     * @param string $messageRequired
+     * @param string $messageInvalid
+     */
+    public static function apiPasswordRequired($messageRequired = '', $messageInvalid = ''){
+
+        AclHelper::apiAuthRequired();
+
+        NlsHelper::load('auth');
+        if(!$messageRequired){
+            $messageRequired = NlsHelper::_('error_password_required');
+        }
+        if(!$messageInvalid){
+            $messageInvalid = NlsHelper::_('error_invalid_password');
+        }
+
+        $password = InputHelper::checkParam('password')->required($messageRequired)->getValue();
+
+        InputHelper::validateInput(true);
+
+
+        if(!self::checkPassword($password)){
+            JsonHelper::respondError($messageInvalid, 'password');
+        }
     }
 
     /**

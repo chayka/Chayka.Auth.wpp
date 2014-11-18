@@ -11,6 +11,7 @@ return array(
     'error_invalid_combo' => 'Пользователь не найден.',
     'error_no_password_reset' => 'Смена пароля запрещена',
     'error_passwords_mismatch' => 'Введенные пароли не совпадают.',
+    'error_password_required'=> 'Необходимо ввести пароль',
     'error_invalid_password'=> 'Вы ввели неверный пароль. <a href="#forgot-password">Забыли пароль?</a>',
     'error_passwords_required' => 'Необходимо ввести новый пароль',//'Вы не ввели новые пароли',
     'error_invalid_key' => 'Ссылка для смены пароля устарела, пожалуйста, повторите процедуру восстановления пароля.',

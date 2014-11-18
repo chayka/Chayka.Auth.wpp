@@ -11,6 +11,7 @@ return array(
     'error_invalid_combo' => 'User account not found.',
     'error_no_password_reset' => 'Password reset is not allowed for this user',
     'error_passwords_mismatch' => 'The passwords do not match.',
+    'error_password_required'=> 'Password required',
     'error_invalid_password'=> 'Incorrect password. <a href="#forgot-password">Forgot your password?</a>',//'Вы ввели неверный пароль',
     'error_passwords_required' => 'New password required',//'Вы не ввели новые пароли',
     'error_invalid_key' => 'The link for password change is outdated. Could you please repeat password recovery procedure',

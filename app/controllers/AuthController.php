@@ -240,12 +240,14 @@ class AuthController extends Controller{
     }
 
     public function changePasswordAction() {
-        $pass = InputHelper::getParam('password');
+//        $pass = InputHelper::getParam('password');
+//        if (!AuthHelper::checkPassword($pass, $user)) {
+//            JsonHelper::respondError(NlsHelper::_('error_invalid_password'), 'password');
+//        }
+
+        AuthHelper::apiPasswordRequired();
+
         $user = UserModel::currentUser();
-        if (!AuthHelper::checkPassword($user, $pass)) {
-            $errors = new WP_Error('invalid_password', NlsHelper::_('error_invalid_password'));
-            JsonHelper::respondErrors($errors);
-        }
 
         InputHelper::checkParam('password1')->required();
         InputHelper::checkParam('password2')->required();
@@ -257,8 +259,7 @@ class AuthController extends Controller{
 
         if ($pass1 && $pass2) {
             if ($pass1 != $pass2) {
-                $errors = new WP_Error('passwords_mismatch', NlsHelper::_('error_passwords_mismatch'));
-                JsonHelper::respondErrors($errors);
+                JsonHelper::respondError(NlsHelper::_('error_passwords_mismatch'), 'password');
             } else {
                 AuthHelper::changePassword($user, $pass1);
                 EmailHelper::newPassword($user, $pass1);
