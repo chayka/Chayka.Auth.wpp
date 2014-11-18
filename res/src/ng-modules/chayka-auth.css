@@ -11,6 +11,7 @@
 }
 .chayka-auth .form_screen > form > .form_hint {
   margin-bottom: 2em;
+  white-space: pre-line;
 }
 .chayka-auth .form_screen > form > .form_field > .message {
   width: 200px;
