@@ -3,7 +3,7 @@
 angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners', 'chayka-ajax',
     'chayka-translate', 'chayka-utils'])
     .controller('form', ['$scope', '$window', '$timeout', '$translate', 'ajax', 'modals', 'utils', 'auth', function($scope, $window, $timeout, $translate, ajax, modals, utils){
-        console.log('auth.controller');
+        //console.log('auth.controller');
         //$scope.modal = null;
         $scope.screen = '';
         $scope.authMode = 'reload';
@@ -54,7 +54,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
         };
 
         $scope.showScreen = function(screen, embedded){
-            console.dir({screensConfig: $scope.screenUrls});
+            //console.dir({screensConfig: $scope.screenUrls});
             if(screens[screen]) {
                 if ($scope.screen ) {
                     screens[$scope.screen].isOpen = false;
@@ -227,7 +227,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
         };
 
         $scope.buttonLoginClicked = function(){
-            console.dir({scope: $scope});
+            //console.dir({scope: $scope});
             if($scope.validator.validateFields()){
                 ajax.post('/api/auth/login',
                     {
@@ -242,7 +242,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
                         successMessage: $translate.instant('message_welcome'),
                         scope: $scope,
                         success: function(data){
-                            console.dir({'data': data});
+                            //console.dir({'data': data});
                             //$scope.validator.showMessage($translate.instant('message_welcome'));
                             $scope.$emit('Chayka.Users.currentUserChanged', data.payload);
                         }
@@ -256,7 +256,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
         $scope.spinner = null;
 
         $scope.buttonLogoutClicked = function(){
-            console.dir({scope: $scope});
+            //console.dir({scope: $scope});
             if($scope.validator.validateFields()){
                 ajax.get('/api/auth/logout',
                     {
@@ -268,7 +268,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
                         successMessage: $translate.instant('message_signed_out'),
                         scope: $scope,
                         success: function(data){
-                            console.dir({'data': data});
+                            //console.dir({'data': data});
                             //this.showLoginScreen();
                             //$scope.validator.showMessage($translate.instant('message_signed_out'));
                             $scope.$emit('Chayka.Users.currentUserChanged', data.payload);
@@ -288,7 +288,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
         };
 
         $scope.buttonJoinClicked = function(){
-            console.dir({scope: $scope});
+            //console.dir({scope: $scope});
             if($scope.validator.validateFields()){
                 ajax.post('/api/auth/join',
                     {
@@ -303,7 +303,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
                         successMessage: $translate.instant('message_signed_up'),
                         scope: $scope,
                         success: function(data){
-                            console.dir({'data': data});
+                            //console.dir({'data': data});
                             //this.showLoginScreen();
                             //$scope.validator.showMessage($translate.instant('message_signed_up'));
                             $timeout(function(){
@@ -325,7 +325,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
         };
 
         $scope.buttonSendCodeClicked = function(){
-            console.dir({scope: $scope});
+            //console.dir({scope: $scope});
             if($scope.validator.validateFields()){
                 ajax.post('/api/auth/forgot-password',
                     {
@@ -339,7 +339,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
                         successMessage: $translate.instant('message_change_pass_code_sent'),
                         scope: $scope,
                         success: function(data){
-                            console.dir({'data': data});
+                            //console.dir({'data': data});
                             //$scope.validator.showMessage($translate.instant('message_change_pass_code_sent'));
                         }
                     });
@@ -358,7 +358,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
         };
 
         $scope.buttonResetPasswordClicked = function(){
-            console.dir({scope: $scope});
+            //console.dir({scope: $scope});
             if($scope.validator.validateFields()){
                 ajax.post('/api/auth/reset-password',
                     {
@@ -375,7 +375,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
                         successMessage: $translate.instant('message_password_set_signing_in'),
                         scope: $scope,
                         success: function(data){
-                            console.dir({'data': data});
+                            //console.dir({'data': data});
                             //this.showLoginScreen();
                             //$scope.validator.showMessage($translate.instant('message_password_set_signing_in'));
                             $timeout(function(){
@@ -400,7 +400,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
         };
 
         $scope.buttonChangePasswordClicked = function(){
-            console.dir({scope: $scope});
+            //console.dir({scope: $scope});
             if($scope.validator.validateFields()){
                 ajax.post('/api/auth/change-password',
                     $scope.fields,
@@ -413,7 +413,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
                         successMessage: $translate.instant('message_password_changed'),
                         scope: $scope,
                         success: function(data){
-                            console.dir({'data': data});
+                            //console.dir({'data': data});
                             //this.showLoginScreen();
                             //$scope.validator.showMessage($translate.instant('message_password_changed'));
                             $scope.fields.password = '';
@@ -444,7 +444,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
         };
 
         $scope.buttonConfirmPasswordClicked = function(){
-            console.dir({scope: $scope});
+            //console.dir({scope: $scope});
             var data = angular.extend({}, $scope.data, $scope.fields);
             var callback = $scope.callback;
             if($scope.validator.validateFields()){
@@ -459,7 +459,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
                         //successMessage: $translate.instant('message_password_confirmed'),
                         scope: $scope,
                         success: function(data, status, headers, config){
-                            console.dir({'data': data});
+                            //console.dir({'data': data});
                             $scope.fields.password = '';
                             if(callback){
                                 callback(data, status, headers, config);
@@ -476,7 +476,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
         return {
             restrict: 'A',
             link: function($scope, element, attrs){
-                console.dir({'auth.directive': $scope});
+                //console.dir({'auth.directive': $scope});
                 $scope.showScreen(attrs['authScreen']);
             }
         };
@@ -486,7 +486,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
             restrict: 'A',
             link: function($scope, element, attrs){
                 $scope.authMode = attrs['authMode'];
-                console.dir({'auth.directive': $scope});
+                //console.dir({'auth.directive': $scope});
             }
         };
     })
