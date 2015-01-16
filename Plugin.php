@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: borismossounov
- * Date: 27.10.14
- * Time: 11:09
- */
 
 namespace Chayka\Auth;
 
@@ -12,49 +6,38 @@ use Chayka\WP;
 
 class Plugin extends WP\Plugin{
 
+    /* chayka: constants */
+    
+    public static $instance = null;
+
     public static function init(){
-        self::$instance = $plugin = new self(__FILE__, array(
-            'auth'
-        ));
+        if(!static::$instance){
+            static::$instance = $app = new self(__FILE__, array(
+                'auth'
+                /* chayka: init-controllers */
+            ));
+	        $app->addSupport_UriProcessing();
+	        $app->addSupport_ConsolePages();
+            /* chayka: init-addSupport */
 
-        $plugin->addSupport_UriProcessing();
-        $plugin->addSupport_ConsolePages();
-
-        AuthHelper::addForm();
-//        $plugin->addAuthForm();
+            AuthHelper::addForm();
+        }
     }
 
 
     /**
-     * Routes are to be added here via $this->addRoute();
+     * Register your action hooks here using $this->addAction();
      */
-    public function registerRoutes()
-    {
-        $this->addRoute('default');
+    public function registerActions() {
+        $this->addAction('parse_request', array('Chayka\\Auth\\AuthHelper', 'hideActivationKey'));
+    	/* chayka: registerActions */
     }
 
     /**
-     * Custom post type are to be added here
+     * Register your action hooks here using $this->addFilter();
      */
-    public function registerCustomPostTypes()
-    {
-
-    }
-
-    /**
-     * Custom Taxonomies are to be added here
-     */
-    public function registerTaxonomies()
-    {
-
-    }
-
-    /**
-     * Custom Sidebars are to be added here via $this->registerSidbar();
-     */
-    public function registerSidebars()
-    {
-
+    public function registerFilters() {
+		/* chayka: registerFilters */
     }
 
     /**
@@ -62,37 +45,39 @@ class Plugin extends WP\Plugin{
      *
      * @param bool $minimize
      */
-    public function registerResources($minimize = false)
-    {
-        $this->registerScript('chayka-auth', 'src/ng-modules/chayka-auth.js', array('jquery', 'angular', 'chayka-translate', 'chayka-forms', 'chayka-modals', 'chayka-spinners', 'chayka-ajax', 'chayka-utils'));
-        $this->registerStyle('chayka-auth', 'src/ng-modules/chayka-auth.css', array('chayka-forms'));
+    public function registerResources($minimize = false) {
+//        $this->registerBowerResources(true);
+
+        $this->setResSrcDir('src/');
+        $this->setResDistDir('dist/');
+
+        $this->registerScript('chayka-auth', 'ng-modules/chayka-auth.js', array('jquery', 'angular', 'chayka-translate', 'chayka-forms', 'chayka-modals', 'chayka-spinners', 'chayka-ajax', 'chayka-utils'));
+        $this->registerStyle('chayka-auth', 'ng-modules/chayka-auth.css', array('chayka-forms'));
+        /* chayka: registerResources */
     }
 
     /**
-     * Register your action hooks here using $this->addAction();
+     * Routes are to be added here via $this->addRoute();
      */
-    public function registerActions()
-    {
-        $this->addAction('parse_request', array('Chayka\\Auth\\AuthHelper', 'hideActivationKey'));
+    public function registerRoutes() {
+        $this->addRoute('default');
     }
 
     /**
-     * Register your action hooks here using $this->addFilter();
+     * Registering console pages
      */
-    public function registerFilters()
-    {
-
-    }
-
     public function registerConsolePages(){
-        $this->addConsoleSubPage('chayka-core', 'Auth', 'update_core', 'chayka-auth', '/admin-auth/');
+        $this->addConsoleSubPage('chayka-core', 'Auth', 'update_core', 'chayka-auth', '/admin/');
+        /* chayka: registerConsolePages */
     }
 
+    /**
+     * Implement to add addShortcodes() calls;
+     */
     public function registerShortcodes(){
         $this->addShortcode('chayka_auth_login');
         $this->addShortcode('chayka_auth_join');
         $this->addShortcode('chayka_auth_forgot_password');
+    	/* chayka: registerShortcodes */
     }
-
-
 }

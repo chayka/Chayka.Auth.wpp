@@ -1,0 +1,38 @@
+{
+  "generator-chayka": {
+    "support": [
+      "UriProcessing",
+      "ConsolePages"
+    ],
+    "register": [
+      "registerActions",
+      "registerFilters",
+      "registerResources",
+      "registerRoutes",
+      "registerConsolePages",
+      "registerShortcodes"
+    ],
+    "appType": "plugin",
+    "appName": "Chayka.Auth",
+    "appDescription": "Chayka framework implementation of Auth process",
+    "appKeywords": "WordPress, Chayka, auth, login, logout, forgot password, change password, password",
+    "appVersion": "0.0.1",
+    "packagistVendor": "chayka",
+    "packagistPackage": "auth-wpp",
+    "phpNamespace": "Chayka\\Auth",
+    "chaykaFramework": "external",
+    "chaykaFrameworkDeps": {},
+    "initDep": true,
+    "initDepPhpClass": "Chayka\\WP\\Plugin",
+    "initDepMessage": "Chayka Framework functionality is not available",
+    "gitRemote": "github",
+    "githubUser": "chayka",
+    "gitRemoteRepo": "git@github.com:chayka/Chayka.Auth.wpp.git",
+    "gitPush": false,
+    "appAuthor": "Boris Mossounov",
+    "appAuthorEmail": "borix@tut.by",
+    "appAuthorUri": "https://github.com/chayka/",
+    "appLicense": "MIT",
+    "appClass": "Plugin"
+  }
+}

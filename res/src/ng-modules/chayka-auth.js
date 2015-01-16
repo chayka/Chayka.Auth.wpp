@@ -187,23 +187,23 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
 
 
         $( document )
-            .on( "click", 'a[href*="/wp-login.php?action=register"], a[href*="#join"]', function(event){
+            .on( 'click', 'a[href*="/wp-login.php?action=register"], a[href*="#join"]', function(event){
                 event.preventDefault();
                 $scope.openJoinScreen();
             })
-            .on( "click", 'a[href*="/wp-login.php?action=lostpassword"], a[href*="#forgot-password"]', function(event){
+            .on( 'click', 'a[href*="/wp-login.php?action=lostpassword"], a[href*="#forgot-password"]', function(event){
                 event.preventDefault();
                 $scope.openForgotPasswordScreen();
             })
-            .on( "click", 'a[href*="/wp-login.php?action=changepassword"], a[href*="#change-password"]', function(event){
+            .on( 'click', 'a[href*="/wp-login.php?action=changepassword"], a[href*="#change-password"]', function(event){
                 event.preventDefault();
                 $scope.openChangePasswordScreen();
             })
-            .on( "click", 'a[href*="/wp-login.php?action=logout"], a[href*="#logout"]', function(event){
+            .on( 'click', 'a[href*="/wp-login.php?action=logout"], a[href*="#logout"]', function(event){
                 event.preventDefault();
                 $scope.openLogoutScreen();
             })
-            .on( "click", 'a[href$="/wp-login.php"], a[href*="#login"]', function(event){
+            .on( 'click', 'a[href$="/wp-login.php"], a[href*="#login"]', function(event){
                 event.preventDefault();
                 $scope.openLoginScreen();
             })

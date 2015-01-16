@@ -1,0 +1,26 @@
+{
+    "appType": "plugin",
+    "appName": "Chayka.Auth",
+    "appDescription": "Chayka framework implementation of Auth process",
+    "appKeywords": "WordPress, Chayka, auth, login, logout, forgot password, change password, password",
+    "appVersion": "0.0.1",
+    "appAuthor": "Boris Mossounov",
+    "appAuthorEmail": "borix@tut.by",
+    "appAuthorUri": "https://github.com/chayka/",
+    "appLicense": "MIT",
+    "phpNamespace": "Chayka\\Auth",
+    "chaykaFramework": "external",
+    "chaykaFrameworkDeps": {},
+    "support": [
+        "UriProcessing",
+        "ConsolePages"
+    ],
+    "register": [
+        "registerActions",
+        "registerFilters",
+        "registerResources",
+        "registerRoutes",
+        "registerConsolePages",
+        "registerShortcodes"
+    ]
+}

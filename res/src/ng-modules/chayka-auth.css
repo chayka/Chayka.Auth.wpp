@@ -1,13 +1,14 @@
 .chayka-auth .form_screen {
   padding: 0 1ex;
   width: 300px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 .chayka-auth .form_screen > h2 {
   margin-top: 0;
   margin-bottom: 1em;
+}
+.chayka-auth .form_screen > form {
+  width: auto;
 }
 .chayka-auth .form_screen > form > .form_hint {
   margin-bottom: 2em;

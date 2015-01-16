@@ -16,6 +16,7 @@ use Chayka\Helpers\HttpHeaderHelper;
 use Chayka\WP\Helpers\AclHelper;
 use Chayka\WP\Helpers\DbHelper;
 //use Chayka\WP\Helpers\NlsHelper;
+use Chayka\WP\Helpers\ResourceHelper;
 use Chayka\WP\Models\UserModel;
 use WP_Error;
 
@@ -64,8 +65,9 @@ class AuthHelper {
     }
 
     public static function addForm(){
-        wp_enqueue_script('chayka-auth');
-        wp_enqueue_style('chayka-auth');
+        ResourceHelper::enqueueScriptStyle('chayka-auth');
+//        wp_enqueue_script('chayka-auth');
+//        wp_enqueue_style('chayka-auth');
         NlsHelper::load('authForm');
         $view = Plugin::getView();
         Plugin::getInstance()->addAction('wp_footer', function() use ($view){

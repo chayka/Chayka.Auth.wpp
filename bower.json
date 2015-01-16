@@ -1,21 +1,30 @@
 {
-  "name": "Chayka.Auth.wpp",
-  "version": "0.0.0",
-  "homepage": "https://github.com/chayka/Chayka.Auth.wpp",
-  "authors": [
-    "Boris Mossounov <borix@tut.by>"
-  ],
-  "description": "Auth plugin for Chayka framework",
-  "license": "MIT",
-  "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
-  "dependencies": {
-    "lesshat": "~3.0.2"
-  }
+    "name": "Chayka.Auth",
+    "description": "Chayka framework implementation of Auth process",
+    "version": "0.0.1",
+    "license": "MIT",
+    "authors": [
+        "Boris Mossounov <borix@tut.by>"
+    ],
+    "keywords": [
+        "WordPress",
+        "Chayka",
+        "auth",
+        "login",
+        "logout",
+        "forgot password",
+        "change password",
+        "password"
+    ],
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "res/lib",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "lesshat": "~3.0.2"
+    }
 }

@@ -8,13 +8,12 @@
 
 namespace Chayka\Auth;
 
-use Chayka\MVC\Controller;
+use Chayka\WP\MVC\Controller;
 
-class AdminAuthController extends Controller{
+class AdminController extends Controller{
 
     public function init(){
-        wp_enqueue_script('chayka-options-form');
-        wp_enqueue_style('chayka-options-form');
+        $this->enqueueScriptStyle('chayka-options-form');
     }
 
     public function indexAction(){
