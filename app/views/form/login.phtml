@@ -16,7 +16,7 @@ $areSocialsAvailable = $isFbApiAvailable;
                 <h2><?php $this->__('header_social_login');?>:</h2>
                 <ul class="buttons">
                     <?php if($isFbApiAvailable):?>
-                        <li class="facebook"><a href="#facebook-login">Facebook</a></li>
+                        <li class="facebook"><a data-auth-facebook-button href="#facebook-login">Facebook</a></li>
                     <?php endif;?>
                 </ul>
                 <div class="or_common"><?php $this->__('or');?></div>
