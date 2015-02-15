@@ -13,7 +13,7 @@ $areSocialsAvailable = $isFbApiAvailable;
 <!--        <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>-->
         <?php if($areSocialsAvailable):?>
             <div class="social_logins" >
-                <h2>Войти через социальную сеть:</h2>
+                <h2><?php $this->__('header_social_login');?>:</h2>
                 <ul class="buttons">
                     <?php if($isFbApiAvailable):?>
                         <li class="facebook"><a href="#facebook-login">Facebook</a></li>

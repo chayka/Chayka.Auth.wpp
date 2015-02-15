@@ -72,6 +72,74 @@
             margin: 0 1ex;
         }
     }
+
+    .form_screen.screen_login{
+        .social_logins{
+            margin-bottom: 20px;
+            text-align: center;
+            h2{
+                display: block !important;
+                line-height: normal;
+                margin: 0 0 1em;
+                font-weight: lighter;
+                font-size: 16px;
+            }
+            .buttons{
+                margin: 0 0 1em;
+
+                li{
+                    list-style: none;
+                    a{
+                        display: inline-block;
+                        background-size: 20px 20px;
+                        background: no-repeat 6px 6px;
+                        text-decoration: none;
+                        color: white;
+                        line-height: 32px;
+                        padding: 0 6px 0 32px;
+                        width: 100px;
+                        text-align: center;
+                        border-radius: 4px;
+                    }
+                }
+                .facebook{
+                    a{
+                        background: rgb(76, 102, 164) url('../img/fb40x40.png');
+
+                    }
+                }
+
+            }
+            .or_common{
+                display: inline;
+                /*position: relative;*/
+                font-size: 16px;
+                padding: 10px 0;
+                /*top: .5em;*/
+                /*clear: both;*/
+            }
+
+            .or_common::before, .or_common::after{
+                width: 40%;
+                height: 1px;
+                display: inline-block;
+                border-bottom: 1px dotted black;
+                content:'';
+                position: relative;
+                top: 1ex;
+            }
+            .or_common::before{
+                margin-right: 10px;
+                float:left;
+            }
+            .or_common::after{
+                margin-left: 10px;
+                float:right;
+            }
+
+        }
+
+    }
 }
 
 #chayka-auth-embedded{
