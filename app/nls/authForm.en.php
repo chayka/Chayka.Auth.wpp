@@ -3,6 +3,7 @@
 return array(
     'header_login_screen' => 'Sign in',
     'header_social_login' => 'Sign in via social network',
+    'or' => 'or',
     'message_validate_email' => 'Invalid e-mail (e.g. %s)',
     'label_email' => 'Your email',
     'label_password' => 'Password',

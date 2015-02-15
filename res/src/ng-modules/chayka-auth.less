@@ -86,7 +86,7 @@
             }
             .buttons{
                 margin: 0 0 1em;
-
+                padding: 0;
                 li{
                     list-style: none;
                     a{
@@ -100,11 +100,13 @@
                         width: 100px;
                         text-align: center;
                         border-radius: 4px;
+                        box-sizing: content-box;
                     }
                 }
                 .facebook{
                     a{
-                        background: rgb(76, 102, 164) url('../img/fb40x40.png');
+                        background: #4c66a4 url("../img/fb40x40.png") no-repeat 6px 50%;
+                        background-size: 20px 20px;
 
                     }
                 }
@@ -126,7 +128,7 @@
                 border-bottom: 1px dotted black;
                 content:'';
                 position: relative;
-                top: 1ex;
+                top: .7em;
             }
             .or_common::before{
                 margin-right: 10px;

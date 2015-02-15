@@ -3,6 +3,7 @@
 return array(
     'header_login_screen' => 'Вход на сайт',
     'header_social_login' => 'Войти через социальную сеть',
+    'or' => 'или',
     'message_validate_email' => 'Неверный формат (например: %s)',
     'label_email' => 'Адрес e-mail',
     'label_password' => 'Пароль',

@@ -19,7 +19,7 @@ $areSocialsAvailable = $isFbApiAvailable;
                         <li class="facebook"><a href="#facebook-login">Facebook</a></li>
                     <?php endif;?>
                 </ul>
-                <div class="or_common">или</div>
+                <div class="or_common"><?php $this->__('or');?></div>
             </div>
         <?php endif;?>
         <div class="form_field email_login stretch" data-form-field="email" data-check-email="<?php NlsHelper::__('message_validate_email', 'member@'.Util::serverName())?>" data-check-required="<?php NlsHelper::__('message_required');?>">
