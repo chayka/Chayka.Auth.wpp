@@ -64,6 +64,7 @@
 }
 .chayka-auth .form_screen.screen_login .social_logins .buttons li {
   list-style: none;
+  margin-bottom: 1ex;
 }
 .chayka-auth .form_screen.screen_login .social_logins .buttons li a {
   display: inline-block;
@@ -79,6 +80,10 @@
   box-sizing: content-box;
 }
 .chayka-auth .form_screen.screen_login .social_logins .buttons .facebook a {
+  background: #4c66a4 url("../img/fb40x40.png") no-repeat 6px 50%;
+  background-size: 20px 20px;
+}
+.chayka-auth .form_screen.screen_login .social_logins .buttons .linkedin a {
   background: #4c66a4 url("../img/fb40x40.png") no-repeat 6px 50%;
   background-size: 20px 20px;
 }

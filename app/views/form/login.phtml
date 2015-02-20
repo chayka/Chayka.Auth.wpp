@@ -2,8 +2,9 @@
 use Chayka\Helpers\Util;
 use Chayka\Helpers\NlsHelper;
 
-$isFbApiAvailable = class_exists('Chayka\\Facebook\\FacebookHelper');
-$areSocialsAvailable = $isFbApiAvailable;
+$isFbApiAvailable = class_exists('Chayka\\Facebook\\FacebookHelper') && Chayka\Facebook\FacebookHelper::isJsApiEnabled();
+$isInApiAvailable = class_exists('Chayka\\LinkedIn\\LinkedInHelper') && Chayka\LinkedIn\LinkedInHelper::isJsApiEnabled();
+$areSocialsAvailable = $isFbApiAvailable || $isInApiAvailable;
 
 ?>
 
@@ -17,6 +18,9 @@ $areSocialsAvailable = $isFbApiAvailable;
                 <ul class="buttons">
                     <?php if($isFbApiAvailable):?>
                         <li class="facebook"><a data-auth-facebook-button href="#facebook-login">Facebook</a></li>
+                    <?php endif;?>
+                    <?php if($isInApiAvailable):?>
+                        <li class="linkedin"><a data-auth-linkedin-button href="#linkedin-login">LinkedIn</a></li>
                     <?php endif;?>
                 </ul>
                 <div class="or_common"><?php $this->__('or');?></div>
