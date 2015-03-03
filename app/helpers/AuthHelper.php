@@ -14,9 +14,10 @@ use Chayka\Helpers\JsonHelper;
 use Chayka\Helpers\Util;
 use Chayka\Helpers\HttpHeaderHelper;
 use Chayka\WP\Helpers\AclHelper;
+use Chayka\WP\Helpers\AngularHelper;
 use Chayka\WP\Helpers\DbHelper;
 //use Chayka\WP\Helpers\NlsHelper;
-use Chayka\WP\Helpers\ResourceHelper;
+//use Chayka\WP\Helpers\ResourceHelper;
 use Chayka\WP\Models\UserModel;
 use WP_Error;
 
@@ -65,7 +66,7 @@ class AuthHelper {
     }
 
     public static function addForm(){
-        ResourceHelper::enqueueScriptStyle('chayka-auth');
+        AngularHelper::enqueueScriptStyle('chayka-auth');
 //        wp_enqueue_script('chayka-auth');
 //        wp_enqueue_style('chayka-auth');
         NlsHelper::load('authForm');

@@ -53,13 +53,4 @@ $areSocialsAvailable = $isFbApiAvailable;
     var Chayka = Chayka || {};
     Chayka.Users = Chayka.Users || {};
     Chayka.Users.currentUser = <?php echo \Chayka\WP\Helpers\JsonHelper::encode(\Chayka\WP\Models\UserModel::currentUser());?>;
-    (function($, angular){
-        $(document).ready(function(){
-            angular.bootstrap(document.getElementById('chayka-auth'), ['chayka-auth']);
-            var embedded = document.getElementById('chayka-auth-embedded');
-            if(embedded){
-                angular.bootstrap(embedded, ['chayka-auth'])
-            }
-        });
-    }(window.jQuery, window.angular));
 </script>
