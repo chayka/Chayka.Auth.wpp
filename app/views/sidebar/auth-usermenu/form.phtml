@@ -1,0 +1,26 @@
+<?php 
+    $this->declareVars(array(
+	    'showLabels' => '1',
+
+        /* chayka: declareVars */
+    ));
+?>
+<div class="sidebar-widget-form">
+
+	<?php /* showLabels */
+		$id = $this->widget->get_field_id('showLabels');
+		$name = $this->widget->get_field_name('showLabels');
+		$value = $this->showLabels;
+		$options = array(
+			'0' => 'No',
+			'1' => 'Yes',
+
+		);
+	?>
+	<p>
+		<label for="<?php echo $id; ?>">Show Labels</label>
+		<?php echo $this->formSelect($name, $value, $options, array('id' => $id, 'class' => 'widefat')); ?>
+	</p>
+
+    <!-- chayka: fields -->
+</div>

@@ -31,12 +31,12 @@ $this->declareVars(array(
 $isFbApiAvailable = class_exists('Chayka\\Facebook\\FacebookHelper');
 $areSocialsAvailable = $isFbApiAvailable;
 ?>
-<div id="chayka-auth" class="ng-cloak chayka-auth" data-ng-controller="form" data-auth-screen="<?php echo $this->screen;?>" data-auth-mode="<?php echo $this->authMode;?>" data-auth-url-logged-in="<?php echo $this->urlLoggedIn;?>" data-auth-url-logged-out="<?php echo $this->urlLoggedOut;?>">
+<div id="chayka-auth" class="ng-cloak chayka-auth" data-ng-controller="chayka-auth-form" data-auth-screen="<?php echo $this->screen;?>" data-auth-mode="<?php echo $this->authMode;?>" data-auth-url-logged-in="<?php echo $this->urlLoggedIn;?>" data-auth-url-logged-out="<?php echo $this->urlLoggedOut;?>">
     <div data-modal="modal" data-modal-show="<?php echo $this->key?'1':'';?>" >
 <?php
     foreach($this->screens as $screen => $rendered){
         if(!$rendered){
-            echo $this->render('form/'.$screen.'.phtml');
+            echo $this->render('auth/'.$screen.'.phtml');
         }
     }
 ?>

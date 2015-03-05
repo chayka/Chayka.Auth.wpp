@@ -8,7 +8,7 @@ $areSocialsAvailable = $isFbApiAvailable || $isInApiAvailable;
 
 ?>
 
-<div data-ng-controller="login" class="form_screen screen_login ng-cloak" data-screen-title="<?php NlsHelper::__('header_login_screen');?>" data-ng-show="isOpen">
+<div data-ng-controller="chayka-auth-login" class="form_screen screen_login ng-cloak" data-screen-title="<?php NlsHelper::__('header_login_screen');?>" data-ng-show="isOpen">
     <h2><?php NlsHelper::__('header_login_screen');?></h2>
     <form data-ng-submit="buttonLoginClicked()" data-form-validator="validator" novalidate="novalidate">
 <!--        <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>-->

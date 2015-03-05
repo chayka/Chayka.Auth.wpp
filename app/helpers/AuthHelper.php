@@ -54,7 +54,12 @@ class AuthHelper {
         return self::$screens;
     }
 
-    public static function renderEmbeddedForm($screen){
+	/**
+	 * Render embedded form screen
+	 *
+	 * @param $screen
+	 */
+	public static function renderEmbeddedForm($screen){
         NlsHelper::load('authForm');
         $view = Plugin::getView();
         $view->assign('screen', $screen);
@@ -62,13 +67,14 @@ class AuthHelper {
         $view->assign('urlLoggedIn', OptionHelper::getOption('urlLoggedIn', ''));
         $view->assign('urlLoggedOut', OptionHelper::getOption('urlLoggedOut', ''));
         self::$navRendered = true;
-        echo $view->render('form/form-embedded.phtml');
+        echo $view->render('auth/form-embedded.phtml');
     }
 
+	/**
+	 * Add form to rendering queue
+	 */
     public static function addForm(){
         AngularHelper::enqueueScriptStyle('chayka-auth');
-//        wp_enqueue_script('chayka-auth');
-//        wp_enqueue_style('chayka-auth');
         NlsHelper::load('authForm');
         $view = Plugin::getView();
         Plugin::getInstance()->addAction('wp_footer', function() use ($view){
@@ -84,16 +90,29 @@ class AuthHelper {
             $view->assign('urlLoggedIn', OptionHelper::getOption('urlLoggedIn', ''));
             $view->assign('urlLoggedOut', OptionHelper::getOption('urlLoggedOut', ''));
             $view->assign('navRendered', self::$navRendered);
-            echo $view->render('form/form.phtml');
+            echo $view->render('auth/form.phtml');
         });
     }
 
+	/**
+	 * Render auth user menu (Login/Profile/Console/ChangePassword/Logout)
+	 *
+	 * @param bool $showLabels
+	 */
+	public static function renderUserMenu($showLabels = true){
+		AngularHelper::enqueueScriptStyle('chayka-auth');
+		$view = Plugin::getView();
+		$view->assign('showLabels', $showLabels);
+		echo $view->render('auth/usermenu.phtml');
+	}
+
+	/**
+	 * Perform redirect to hide activation key
+	 */
     public static function hideActivationKey(){
         Util::sessionStart();
         if(!empty($_GET['activationkey'])){
             $_SESSION['activationkey'] = $_GET['activationkey'];
-//            $_SESSION['activationlogin'] = $_GET['login'];
-//            $_SESSION['activationpopup'] = true;
             session_commit();
             HttpHeaderHelper::redirect('/');
         }
@@ -157,9 +176,6 @@ class AuthHelper {
      */
     public static function changePassword($user, $password) {
         wp_set_password($password, $user->getId());
-//        unset($_SESSION['activationkey']);
-//        unset($_SESSION['activationlogin']);
-//        unset($_SESSION['activationpopup']);
         wp_signon(array(
             'user_login' => $user->getLogin(),
             'user_password' => $password

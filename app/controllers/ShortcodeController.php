@@ -8,6 +8,7 @@
 
 namespace Chayka\Auth;
 
+use Chayka\Helpers\InputHelper;
 use Chayka\MVC\Controller;
 
 class ShortcodeController extends Controller {
@@ -24,4 +25,8 @@ class ShortcodeController extends Controller {
         AuthHelper::renderEmbeddedForm('password-forgot');
     }
 
+    public function chaykaAuthMenuAction(){
+	    $showLabels = InputHelper::getParam('labels', 1);
+	    AuthHelper::renderUserMenu($showLabels);
+    }
 }

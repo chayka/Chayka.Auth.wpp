@@ -22,4 +22,5 @@ if(!class_exists("Chayka\\WP\\Plugin")){
 }else{
     require_once dirname(__FILE__).'/Plugin.php';
 	add_action('init', array("Chayka\\Auth\\Plugin", "init"));
+    require_once dirname(__FILE__).'/Sidebar.php';
 }

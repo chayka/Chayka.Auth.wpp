@@ -4,7 +4,7 @@ use Chayka\Helpers\Util;
 use Chayka\Helpers\NlsHelper;
 
 ?>
-<div class="form_screen screen_join ng-cloak" data-ng-controller="join" data-screen-title="<?php NlsHelper::__('header_join_screen')?>" data-ng-show="isOpen">
+<div class="form_screen screen_join ng-cloak" data-ng-controller="chayka-auth-join" data-screen-title="<?php NlsHelper::__('header_join_screen')?>" data-ng-show="isOpen">
     <h2><?php NlsHelper::__('header_join_screen')?></h2>
     <form data-ng-submit="buttonJoinClicked()" data-form-validator="validator" novalidate="novalidate">
 <!--        <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>-->

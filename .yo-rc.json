@@ -33,6 +33,17 @@
     "appAuthorEmail": "borix@tut.by",
     "appAuthorUri": "https://github.com/chayka/",
     "appLicense": "MIT",
-    "appClass": "Plugin"
+    "appClass": "Plugin",
+    "shortcodes": [
+      "chayka_auth_menu"
+    ],
+    "controllers": {
+      "Shortcode": [
+        "chayka-auth-menu"
+      ]
+    },
+    "widgets": [
+      "auth-usermenu"
+    ]
   }
 }

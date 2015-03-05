@@ -52,7 +52,7 @@ class Plugin extends WP\Plugin{
         $this->setResDistDir('dist/');
 
         $this->registerNgScript('chayka-auth', 'ng-modules/chayka-auth.js', array('jquery', 'angular', 'chayka-translate', 'chayka-forms', 'chayka-modals', 'chayka-spinners', 'chayka-ajax', 'chayka-utils'));
-        $this->registerStyle('chayka-auth', 'ng-modules/chayka-auth.css', array('chayka-forms'));
+        $this->registerStyle('chayka-auth', 'ng-modules/chayka-auth.css', array('chayka-forms', 'chayka-modals'));
         /* chayka: registerResources */
     }
 
@@ -78,6 +78,8 @@ class Plugin extends WP\Plugin{
         $this->addShortcode('chayka_auth_login');
         $this->addShortcode('chayka_auth_join');
         $this->addShortcode('chayka_auth_forgot_password');
+        $this->addShortcode('chayka_auth_menu');
+
     	/* chayka: registerShortcodes */
     }
 }
