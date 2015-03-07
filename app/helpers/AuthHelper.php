@@ -103,7 +103,7 @@ class AuthHelper {
 		AngularHelper::enqueueScriptStyle('chayka-auth');
 		$view = Plugin::getView();
 		$view->assign('showLabels', $showLabels);
-		echo $view->render('auth/usermenu.phtml');
+		echo $view->render('auth/user-menu.phtml');
 	}
 
 	/**
@@ -328,4 +328,12 @@ class AuthHelper {
 
     }
 
-} 
+	public static function isFacebookApiAvailable(){
+		return class_exists('Chayka\\Facebook\\FacebookHelper') && \Chayka\Facebook\FacebookHelper::isJsApiEnabled();
+	}
+
+	public static function isLinkedInApiAvailable(){
+		return class_exists('Chayka\\LinkedIn\\LinkedInHelper') && \Chayka\LinkedIn\LinkedInHelper::isJsApiEnabled();
+	}
+
+}

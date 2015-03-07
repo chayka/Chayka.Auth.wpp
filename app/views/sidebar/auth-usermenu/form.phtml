@@ -1,6 +1,8 @@
 <?php 
     $this->declareVars(array(
 	    'showLabels' => '1',
+	    'avatarSize' => '48',
+
 
         /* chayka: declareVars */
     ));
@@ -21,6 +23,17 @@
 		<label for="<?php echo $id; ?>">Show Labels</label>
 		<?php echo $this->formSelect($name, $value, $options, array('id' => $id, 'class' => 'widefat')); ?>
 	</p>
+
+	<?php /* avatarSize */
+		$id = $this->widget->get_field_id('avatarSize');
+		$name = $this->widget->get_field_name('avatarSize');
+		$value = $this->avatarSize;
+	?>
+	<p>
+		<label for="<?php echo $id; ?>">Avatar Size (px)</label>
+		<?php echo $this->formInput($name, $value, 'text', array('id' => $id, 'class' => 'widefat')); ?>
+	</p>
+
 
     <!-- chayka: fields -->
 </div>

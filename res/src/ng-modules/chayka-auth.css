@@ -120,3 +120,6 @@
   margin: 0 auto;
   padding: 10px 0;
 }
+.chayka-auth-user_menu ul.user_menu-items {
+  list-style: none;
+}

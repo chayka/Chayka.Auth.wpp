@@ -1,13 +1,10 @@
-@import "../../lib/lesshat/build/lesshat";
-
-
 @form-width: 300px;
 
 .chayka-auth{
     .form_screen{
         padding: 0 1ex;
         width: @form-width;
-        .box-sizing(border-box);
+        box-sizing: border-box;
 
         > h2{
             margin-top: 0;
@@ -158,4 +155,114 @@
     display: block;
     margin: 0 auto;
     padding: 10px 0;
+}
+
+.chayka-auth-user_menu{
+    & > .user_menu-logged_in{
+        & > .user_menu-user_badge{
+            & > img.avatar{
+
+            }
+            & > .user-display_name{
+
+            }
+        }
+        li.link_console {
+            & > a{
+                & > i{
+
+                }
+                & > .item_label{
+
+                }
+            }
+        }
+        li.link_profile {
+            & > a{
+                & > i{
+
+                }
+                & > .item_label{
+
+                }
+            }
+        }
+        li.link_change_password {
+            & > a{
+                & > i{
+
+                }
+                & > .item_label{
+
+                }
+            }
+        }
+        li.link_logout {
+            & > a{
+                & > i{
+
+                }
+                & > .item_label{
+
+                }
+            }
+        }
+
+    }
+    & > .user_user_menu-logged_off{
+        li.link_login {
+            & > a{
+                & > i{
+
+                }
+                & > .item_label{
+
+                }
+            }
+        }
+        li.link_login_facebook {
+            & > a{
+                & > i{
+
+                }
+                & > .item_label{
+
+                }
+            }
+        }
+        li.link_login_linkedin {
+            & > a{
+                & > i{
+
+                }
+                & > .item_label{
+
+                }
+            }
+        }
+        li.link_logout {
+            & > a{
+                & > i{
+
+                }
+                & > .item_label{
+
+                }
+            }
+        }
+    }
+
+    ul.user_menu-items{
+        list-style: none;
+        & > li {
+            & > a{
+                & > i{
+
+                }
+                & > .item_label{
+
+                }
+            }
+        }
+    }
 }

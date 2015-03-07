@@ -126,7 +126,7 @@ module.exports = function(grunt) {
                 tasks: ['js']
             },
             less: {
-                files:  resFiles.less,
+                files:  resFiles.less.concat(resFiles.lessNg),
                 tasks: ['css']
             },
             img: {

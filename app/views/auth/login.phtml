@@ -1,9 +1,10 @@
 <?php
+use Chayka\Auth\AuthHelper;
 use Chayka\Helpers\Util;
 use Chayka\Helpers\NlsHelper;
 
-$isFbApiAvailable = class_exists('Chayka\\Facebook\\FacebookHelper') && Chayka\Facebook\FacebookHelper::isJsApiEnabled();
-$isInApiAvailable = class_exists('Chayka\\LinkedIn\\LinkedInHelper') && Chayka\LinkedIn\LinkedInHelper::isJsApiEnabled();
+$isFbApiAvailable = AuthHelper::isFacebookApiAvailable();
+$isInApiAvailable = AuthHelper::isLinkedInApiAvailable();
 $areSocialsAvailable = $isFbApiAvailable || $isInApiAvailable;
 
 ?>
