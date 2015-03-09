@@ -20,9 +20,9 @@ use Chayka\Auth\OptionHelper;
 		</div>
 		<ul class="user_menu-items">
 			<?php $isUserPrivileged = (AclHelper::isAdmin() || AclHelper::isEditor() || AclHelper::isAuthor());?>
-			<li class="link_console" <?php $this->hidden(!$isUserPrivileged);?> data-ng-show="isUserPrivileged()"><a href="/wp-admin/"><i></i><span class="item_label">{{ 'user_menu_admin_area' | translate }}</span></a></li>
+			<li class="link_console" data-ng-show="isUserPrivileged()"><a href="/wp-admin/"><i></i><span class="item_label">{{ 'user_menu_admin_area' | translate }}</span></a></li>
 			<li class="link_profile" <?php $this->hidden(!OptionHelper::getOption('showProfileLink'))?>><a data-ng-href="{{user.profile_link}}" href="<?php echo $user->getProfileLink();?>"><i></i><span class="item_label">{{ 'user_menu_profile' | translate }}</span></a>
-			<li class="link_change_password" <?php $this->hidden(UserModel::currentUser()->getMeta('source'));?> data-ng-hide="!isUserNative()"><a href="#change-password"><i></i><span>{{ 'user_menu_change_password' | translate }}</span></a></li>
+			<li class="link_change_password" data-ng-hide="!isUserNative()"><a href="#change-password"><i></i><span class="item_label">{{ 'user_menu_change_password' | translate }}</span></a></li>
 			<li class="link_logout"><a href="#logout"><i></i><span class="item_label">{{ 'user_menu_logout' | translate }}</span></a></li>
 		</ul>
 	</div>

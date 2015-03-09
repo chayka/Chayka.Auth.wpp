@@ -74,35 +74,39 @@ class AuthHelper {
 	 * Add form to rendering queue
 	 */
     public static function addForm(){
-        AngularHelper::enqueueScriptStyle('chayka-auth');
-        NlsHelper::load('authForm');
-        $view = Plugin::getView();
-        Plugin::getInstance()->addAction('wp_footer', function() use ($view){
-            Util::sessionStart();
-            $key = Util::getItem($_SESSION, 'activationkey');
-            if($key){
-                $view->assign('key', $key);
-                $view->assign('screen', 'password-reset');
-                unset($_SESSION['activationkey']);
-            }
-            $view->assign('screens', self::getScreens());
-            $view->assign('authMode', OptionHelper::getOption('authMode', 'reload'));
-            $view->assign('urlLoggedIn', OptionHelper::getOption('urlLoggedIn', ''));
-            $view->assign('urlLoggedOut', OptionHelper::getOption('urlLoggedOut', ''));
-            $view->assign('navRendered', self::$navRendered);
-            echo $view->render('auth/form.phtml');
-        });
+	    if(!is_admin()) {
+		    AngularHelper::enqueueScriptStyle( 'chayka-auth' );
+		    NlsHelper::load( 'authForm' );
+		    $view = Plugin::getView();
+		    Plugin::getInstance()->addAction( 'wp_footer', function () use ( $view ) {
+			    Util::sessionStart();
+			    $key = Util::getItem( $_SESSION, 'activationkey' );
+			    if ( $key ) {
+				    $view->assign( 'key', $key );
+				    $view->assign( 'screen', 'password-reset' );
+				    unset( $_SESSION['activationkey'] );
+			    }
+			    $view->assign( 'screens', self::getScreens() );
+			    $view->assign( 'authMode', OptionHelper::getOption( 'authMode', 'reload' ) );
+			    $view->assign( 'urlLoggedIn', OptionHelper::getOption( 'urlLoggedIn', '' ) );
+			    $view->assign( 'urlLoggedOut', OptionHelper::getOption( 'urlLoggedOut', '' ) );
+			    $view->assign( 'navRendered', self::$navRendered );
+			    echo $view->render( 'auth/form.phtml' );
+		    } );
+	    }
     }
 
 	/**
 	 * Render auth user menu (Login/Profile/Console/ChangePassword/Logout)
 	 *
 	 * @param bool $showLabels
+	 * @param int $avatarSize
 	 */
-	public static function renderUserMenu($showLabels = true){
+	public static function renderUserMenu($showLabels = true, $avatarSize = 48){
 		AngularHelper::enqueueScriptStyle('chayka-auth');
 		$view = Plugin::getView();
 		$view->assign('showLabels', $showLabels);
+		$view->assign('avatarSize', $avatarSize);
 		echo $view->render('auth/user-menu.phtml');
 	}
 
