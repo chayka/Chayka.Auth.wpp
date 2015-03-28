@@ -272,6 +272,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
                             //this.showLoginScreen();
                             //$scope.validator.showMessage($translate.instant('message_signed_out'));
                             $scope.$emit('Chayka.Users.currentUserChanged', data.payload);
+                            $scope.$broadcast('Chayka.Users.currentUserChanged', data.payload);
                         }
                     });
             }
