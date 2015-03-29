@@ -159,6 +159,7 @@
 
 .chayka-auth-user_menu{
     & > .user_menu-logged_in{
+        display: none;
         & > .user_menu-user_badge{
             & > img.avatar{
 
@@ -210,6 +211,7 @@
 
     }
     & > .user_user_menu-logged_off{
+        display: block;
         li.link_login {
             & > a{
                 & > i{
@@ -249,6 +251,15 @@
 
                 }
             }
+        }
+    }
+
+    &.logged_in{
+        > .user_menu-logged_in{
+            display: block;
+        }
+        > .user_menu-logged_off{
+            display: none;
         }
     }
 

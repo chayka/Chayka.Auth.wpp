@@ -120,6 +120,18 @@
   margin: 0 auto;
   padding: 10px 0;
 }
+.chayka-auth-user_menu > .user_menu-logged_in {
+  display: none;
+}
+.chayka-auth-user_menu > .user_user_menu-logged_off {
+  display: block;
+}
+.chayka-auth-user_menu.logged_in > .user_menu-logged_in {
+  display: block;
+}
+.chayka-auth-user_menu.logged_in > .user_menu-logged_off {
+  display: none;
+}
 .chayka-auth-user_menu ul.user_menu-items {
   list-style: none;
 }

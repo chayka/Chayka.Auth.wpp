@@ -12,8 +12,8 @@ use Chayka\Auth\OptionHelper;
 	$avatar = get_avatar($user->getEmail(), $this->avatarSize);
 	$avatar = str_replace('<img ', '<img data-ng-src="{{avatar('.$this->avatarSize.')}}" ', $avatar);
 ?>
-<div class="chayka-auth-user_menu" data-ng-controller="auth-user-menu">
-	<div class="user_menu-logged_in" data-ng-class="{open: open}" <?php //$this->hidden(!$currentUserId);?> data-ng-show="isUserLoggedIn()">
+<div class="chayka-auth-user_menu<?php if($currentUserId):?> logged_in<?php endif;?>" data-ng-class="{logged_in: isUserLoggedIn()}" data-ng-controller="auth-user-menu">
+	<div class="user_menu-logged_in" data-ng-class="{open: open}" >
 		<div class="user_menu-user_badge" data-ng-click="open = !open;">
 			<?php echo $avatar;?>
 			<span class="user-display_name item_label" data-ng-bind="user.display_name"><?php echo $user->getDisplayName(); ?></span>
@@ -26,7 +26,7 @@ use Chayka\Auth\OptionHelper;
 			<li class="link_logout"><a href="#logout"><i></i><span class="item_label">{{ 'user_menu_logout' | translate }}</span></a></li>
 		</ul>
 	</div>
-	<div class="user_menu-logged_off"  <?php //$this->hidden($currentUserId);?> data-ng-hide="isUserLoggedIn()">
+	<div class="user_menu-logged_off">
 		<ul class="user_menu-items">
 			<li class="link_login_facebook" <?php $this->visible(AuthHelper::isFacebookApiAvailable());?>><a href="#facebook-login"><i></i><span class="item_label">{{ 'user_menu_login' | translate }} <span class="via">{{ 'user_menu_via_facebook' | translate }}</span></span></a></li>
 			<li class="link_login_linkedin" <?php $this->visible(AuthHelper::isLinkedInApiAvailable());?>><a href="#linkedin-login"><i></i><span class="item_label">{{ 'user_menu_login' | translate }} <span class="via">{{ 'user_menu_via_linkedin' | translate }}</span></span></a></li>
