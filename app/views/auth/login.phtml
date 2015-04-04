@@ -40,7 +40,7 @@ $areSocialsAvailable = $isFbApiAvailable || $isInApiAvailable;
             <div data-form-message class="form_message"></div>
         </div>
         <div class="form_buttons">
-            <button class="button_login"><?php NlsHelper::__('button_login');?></button>
+            <button class="{{getButtonClass()}} button_login"><?php NlsHelper::__('button_login');?></button>
         </div>
     </form>
 

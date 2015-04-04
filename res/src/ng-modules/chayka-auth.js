@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners', 'chayka-ajax',
+angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals', 'chayka-spinners', 'chayka-ajax',
     'chayka-translate', 'chayka-utils', 'angular-md5'])
-    .controller('chayka-auth-form', ['$scope', '$window', '$timeout', '$translate', 'ajax', 'modals', 'utils', 'auth', function($scope, $window, $timeout, $translate, ajax, modals, utils){
+    .controller('chayka-auth-form', ['$scope', '$window', '$timeout', '$translate', 'ajax', 'buttons', 'modals', 'utils', 'auth', function($scope, $window, $timeout, $translate, ajax, buttons, modals, utils){
         //console.log('auth.controller');
         //$scope.modal = null;
         $scope.screen = '';
@@ -14,6 +14,9 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
         var screens = {};
         var $ = angular.element;
 
+        $scope.getButtonClass = function(){
+            return buttons.getButtonClass();
+        };
 
         $scope.user = utils.ensure('Chayka.Users.currentUser');
 
@@ -79,7 +82,9 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
         $scope.openScreen = function(screen, embedded){
             if($scope.showScreen(screen, embedded)){
                 $scope.showModal();
-                $scope.$apply();
+                if(!$scope.$$phase){
+                    $scope.$apply();
+                }
             }
         };
 
@@ -303,10 +308,8 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
                         errorMessage: $translate.instant('message_error_sign_up_failed'),
                         successMessage: $translate.instant('message_signed_up'),
                         scope: $scope,
-                        success: function(data){
+                        success: function(){
                             //console.dir({'data': data});
-                            //this.showLoginScreen();
-                            //$scope.validator.showMessage($translate.instant('message_signed_up'));
                             $timeout(function(){
                                 $scope.$parent.showLoginScreen();
                             }, 4000);
@@ -413,18 +416,14 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-modals', 'chayka-spinners
                         errorMessage: $translate.instant('message_error_change_password'),
                         successMessage: $translate.instant('message_password_changed'),
                         scope: $scope,
-                        success: function(data){
+                        success: function(){
                             //console.dir({'data': data});
-                            //this.showLoginScreen();
-                            //$scope.validator.showMessage($translate.instant('message_password_changed'));
                             $scope.fields.password = '';
                             $scope.fields.password1 = '';
                             $scope.fields.password2 = '';
                             $timeout(function(){
                                 $scope.$parent.hideModal();
                             }, 2000);
-                            //$scope.$emit('Chayka.Users.currentUserChanged', data.payload);
-                            //this.onUserChanged(data.payload);
                         }
                     });
             }

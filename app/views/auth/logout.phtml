@@ -14,7 +14,7 @@ use Chayka\Helpers\NlsHelper;
             <div data-form-message class="form_message"></div>
         </div>
         <div class="form_buttons">
-            <button data-ng-click="buttonLogoutClicked()" class="button_logout"><?php NlsHelper::__('button_logout');?></button>
+            <button data-ng-click="buttonLogoutClicked()" class="{{getButtonClass()}} button_logout"><?php NlsHelper::__('button_logout');?></button>
         </div>
     </form>
 </div>

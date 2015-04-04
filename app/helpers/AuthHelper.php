@@ -74,11 +74,11 @@ class AuthHelper {
 	 * Add form to rendering queue
 	 */
     public static function addForm(){
-	    if(!is_admin()) {
+	    if(true || !is_admin()) {
 		    AngularHelper::enqueueScriptStyle( 'chayka-auth' );
 		    NlsHelper::load( 'authForm' );
 		    $view = Plugin::getView();
-		    Plugin::getInstance()->addAction( 'wp_footer', function () use ( $view ) {
+		    $callback = function () use ( $view ) {
 			    Util::sessionStart();
 			    $key = Util::getItem( $_SESSION, 'activationkey' );
 			    if ( $key ) {
@@ -92,7 +92,9 @@ class AuthHelper {
 			    $view->assign( 'urlLoggedOut', OptionHelper::getOption( 'urlLoggedOut', '' ) );
 			    $view->assign( 'navRendered', self::$navRendered );
 			    echo $view->render( 'auth/form.phtml' );
-		    } );
+		    };
+		    Plugin::getInstance()->addAction( 'wp_footer', $callback);
+		    Plugin::getInstance()->addAction( 'admin_footer', $callback);
 	    }
     }
 

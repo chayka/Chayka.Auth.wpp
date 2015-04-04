@@ -122,7 +122,7 @@ module.exports = function(grunt) {
         },
         watch: {
             js: {
-                files: resFiles.js,
+                files: resFiles.jsNg,
                 tasks: ['js']
             },
             less: {
