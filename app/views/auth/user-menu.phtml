@@ -10,7 +10,7 @@ use Chayka\Auth\OptionHelper;
 	$user = UserModel::currentUser();
 	$currentUserId = $user->getId();
 	$avatar = get_avatar($user->getEmail(), $this->avatarSize);
-	$avatar = str_replace('<img ', '<img data-ng-src="{{avatar('.$this->avatarSize.')}}" data-ng-srcset={{avatar('.($this->avatarSize * 2).')}} 2x', $avatar);
+	$avatar = str_replace('<img ', '<img data-ng-src="{{avatar('.$this->avatarSize.')}}" data-ng-srcset="{{avatar('.($this->avatarSize * 2).')}} 2x"', $avatar);
 ?>
 <div class="chayka-auth-user_menu<?php if($currentUserId):?> logged_in<?php endif;?>" data-ng-class="{logged_in: isUserLoggedIn()}" data-ng-controller="auth-user-menu">
 	<div class="user_menu-logged_in" data-ng-class="{open: open}" >
