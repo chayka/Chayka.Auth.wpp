@@ -35,7 +35,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
                     document.location = url;
                 }else if($scope.urlLoggedIn && user.id){
                     document.location = $scope.urlLoggedIn;
-                }else if($scope.urlLoggedIn && !user.id){
+                }else if($scope.urlLoggedOut && !user.id){
                     document.location = $scope.urlLoggedOut;
                 }else{
                     document.location.reload();
