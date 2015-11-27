@@ -20,19 +20,19 @@ use Chayka\Auth\OptionHelper;
 		</div>
 		<ul class="user_menu-items">
 			<?php $isUserPrivileged = (AclHelper::isAdmin() || AclHelper::isEditor() || AclHelper::isAuthor());?>
-			<li class="link_console" data-ng-show="isUserPrivileged()"><a href="/wp-admin/"><i></i><span class="item_label">{{ 'user_menu_admin_area' | translate }}</span></a></li>
-			<li class="link_profile" <?php $this->hidden(!OptionHelper::getOption('showProfileLink'))?>><a data-ng-href="{{user.profile_link}}" href="<?php echo $user->getProfileLink();?>"><i></i><span class="item_label">{{ 'user_menu_profile' | translate }}</span></a>
-			<li class="link_change_password" data-ng-hide="!isUserNative()"><a href="#change-password"><i></i><span class="item_label">{{ 'user_menu_change_password' | translate }}</span></a></li>
-			<li class="link_logout"><a href="#logout"><i></i><span class="item_label">{{ 'user_menu_logout' | translate }}</span></a></li>
+			<li class="link_console" data-ng-show="isUserPrivileged()"><a href="/wp-admin/"><i></i><span class="item_label">{{ 'user_menu_admin_area' | nls }}</span></a></li>
+			<li class="link_profile" <?php $this->hidden(!OptionHelper::getOption('showProfileLink'))?>><a data-ng-href="{{user.profile_link}}" href="<?php echo $user->getProfileLink();?>"><i></i><span class="item_label">{{ 'user_menu_profile' | nls }}</span></a>
+			<li class="link_change_password" data-ng-hide="!isUserNative()"><a href="#change-password"><i></i><span class="item_label">{{ 'user_menu_change_password' | nls }}</span></a></li>
+			<li class="link_logout"><a href="#logout"><i></i><span class="item_label">{{ 'user_menu_logout' | nls }}</span></a></li>
 		</ul>
 	</div>
 	<div class="user_menu-logged_off">
 		<ul class="user_menu-items">
-			<li class="link_login_facebook" <?php $this->visible(AuthHelper::isFacebookApiAvailable());?>><a href="#facebook-login"><i></i><span class="item_label">{{ 'user_menu_login' | translate }} <span class="via">{{ 'user_menu_via_facebook' | translate }}</span></span></a></li>
-			<li class="link_login_linkedin" <?php $this->visible(AuthHelper::isLinkedInApiAvailable());?>><a href="#linkedin-login"><i></i><span class="item_label">{{ 'user_menu_login' | translate }} <span class="via">{{ 'user_menu_via_linkedin' | translate }}</span></span></a></li>
-			<li class="link_login"><a href="#login"><i></i><span class="item_label">{{ 'user_menu_login' | translate }}</span></a></li>
-			<li class="link_join"><a href="#join"><i></i><span class="item_label">{{ 'user_menu_join' | translate }}</span></a></li>
-			<li class="link_forgot_password"><a href="#forgot-password"><i></i><span class="item_label">{{ 'user_menu_forgot_password' | translate }}</span></a></li>
+			<li class="link_login_facebook" <?php $this->visible(AuthHelper::isFacebookApiAvailable());?>><a href="#facebook-login"><i></i><span class="item_label">{{ 'user_menu_login' | nls }} <span class="via">{{ 'user_menu_via_facebook' | nls }}</span></span></a></li>
+			<li class="link_login_linkedin" <?php $this->visible(AuthHelper::isLinkedInApiAvailable());?>><a href="#linkedin-login"><i></i><span class="item_label">{{ 'user_menu_login' | nls }} <span class="via">{{ 'user_menu_via_linkedin' | nls }}</span></span></a></li>
+			<li class="link_login"><a href="#login"><i></i><span class="item_label">{{ 'user_menu_login' | nls }}</span></a></li>
+			<li class="link_join"><a href="#join"><i></i><span class="item_label">{{ 'user_menu_join' | nls }}</span></a></li>
+			<li class="link_forgot_password"><a href="#forgot-password"><i></i><span class="item_label">{{ 'user_menu_forgot_password' | nls }}</span></a></li>
 		</ul>
 	</div>
 

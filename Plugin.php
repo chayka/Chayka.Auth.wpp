@@ -51,7 +51,7 @@ class Plugin extends WP\Plugin{
         $this->setResSrcDir('src/');
         $this->setResDistDir('dist/');
 
-        $this->registerNgScript('chayka-auth', 'ng-modules/chayka-auth.js', array('jquery', 'angular', 'chayka-translate', 'chayka-forms', 'chayka-buttons', 'chayka-modals', 'chayka-spinners', 'chayka-ajax', 'chayka-utils', 'chayka-avatars'));
+        $this->registerNgScript('chayka-auth', 'ng-modules/chayka-auth.js', array('jquery', 'angular', 'chayka-nls', 'chayka-forms', 'chayka-buttons', 'chayka-modals', 'chayka-spinners', 'chayka-ajax', 'chayka-utils', 'chayka-avatars'));
         $this->registerStyle('chayka-auth', 'ng-modules/chayka-auth.css', array('chayka-forms', 'chayka-modals'));
         /* chayka: registerResources */
     }

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals', 'chayka-spinners', 'chayka-ajax',
-    'chayka-translate', 'chayka-utils', 'chayka-avatars'])
-    .controller('chayka-auth-form', ['$scope', '$window', '$timeout', '$translate', 'ajax', 'buttons', 'modals', 'utils', 'auth', function($scope, $window, $timeout, $translate, ajax, buttons, modals, utils){
+    'chayka-nls', 'chayka-utils', 'chayka-avatars'])
+    .controller('chayka-auth-form', ['$scope', '$window', '$timeout', 'nls', 'ajax', 'buttons', 'modals', 'utils', 'auth', function($scope, $window, $timeout, nls, ajax, buttons, modals, utils){
         //console.log('auth.controller');
         //$scope.modal = null;
         $scope.screen = '';
@@ -160,19 +160,19 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
         ajax.addErrorHandler('Chayka.Auth', function(code, message, payload){
             switch(code){
                 case 'auth_required':
-                    message = message || $translate.instant('message_auth_required');//'Для выполнения данной операции необходимо авторизоваться на сайте';
+                    message = message || nls._('message_auth_required');//'Для выполнения данной операции необходимо авторизоваться на сайте';
                     if('reload' !== $scope.authMode) {
                         $scope.onUserChanged(payload);
                     }
                     modals.show({
                         content: message,
-                        title: $translate.instant('dialog_title_auth_required'),
+                        title: nls._('dialog_title_auth_required'),
                         buttons: [
-                            {text: $translate.instant('button_stay_anonymous')},
-                            {text: $translate.instant('button_sign_up')/*'Зарегистрироваться'*/, click: function(){
+                            {text: nls._('button_stay_anonymous')},
+                            {text: nls._('button_sign_up')/*'Зарегистрироваться'*/, click: function(){
                                 $scope.openJoinScreen(true);
                             }},
-                            {text: $translate.instant('button_sign_in')/*'Войти'*/, click: function(){
+                            {text: nls._('button_sign_in')/*'Войти'*/, click: function(){
                                 $scope.openLoginScreen(true);
                             }}
                         ]
@@ -181,7 +181,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
                 case 'permission_required':
                     this.onUserChanged(payload);
                     message = message ||
-                    $translate.instant('message_permission_required');//'У вас недостаточно прав для выполнения данной операции';
+                    nls._('message_permission_required');//'У вас недостаточно прав для выполнения данной операции';
                     modals.alert(message);
                     return true;
                 default :
@@ -222,7 +222,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
             });
         //$scope.modal.show();
     }])
-    .controller('chayka-auth-login', ['$scope', '$translate','ajax', function($scope, $translate, ajax){
+    .controller('chayka-auth-login', ['$scope', 'nls','ajax', function($scope, nls, ajax){
         $scope.$parent.registerScreen('login', $scope);
         $scope.spinner = null;
         $scope.isOpen = false;
@@ -240,22 +240,22 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
                         pwd: $scope.fields.password
                     },{
                         spinner: $scope.spinner,
-                        spinnerMessage: $translate.instant('message_spinner_sign_in'),
+                        spinnerMessage: nls._('message_spinner_sign_in'),
                         showMessage: false,
                         formValidator: $scope.validator,
-                        errorMessage: $translate.instant('message_error_auth_failed'),
-                        successMessage: $translate.instant('message_welcome'),
+                        errorMessage: nls._('message_error_auth_failed'),
+                        successMessage: nls._('message_welcome'),
                         scope: $scope,
                         success: function(data){
                             //console.dir({'data': data});
-                            //$scope.validator.showMessage($translate.instant('message_welcome'));
+                            //$scope.validator.showMessage(nls._('message_welcome'));
                             $scope.$emit('Chayka.Users.currentUserChanged', data.payload);
                         }
                     });
             }
         };
     }])
-    .controller('chayka-auth-logout', ['$scope', '$translate', 'ajax', function($scope, $translate, ajax){
+    .controller('chayka-auth-logout', ['$scope', 'nls', 'ajax', function($scope, nls, ajax){
         $scope.$parent.registerScreen('logout', $scope);
         $scope.isOpen = false;
         $scope.spinner = null;
@@ -266,16 +266,16 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
                 ajax.get('/api/auth/logout',
                     {
                         spinner: $scope.spinner,
-                        spinnerMessage: $translate.instant('message_spinner_signout'),
+                        spinnerMessage: nls._('message_spinner_signout'),
                         showMessage: false,
                         formValidator: $scope.validator,
-                        errorMessage: $translate.instant('message_error_signing_out'),
-                        successMessage: $translate.instant('message_signed_out'),
+                        errorMessage: nls._('message_error_signing_out'),
+                        successMessage: nls._('message_signed_out'),
                         scope: $scope,
                         success: function(data){
                             //console.dir({'data': data});
                             //this.showLoginScreen();
-                            //$scope.validator.showMessage($translate.instant('message_signed_out'));
+                            //$scope.validator.showMessage(nls._('message_signed_out'));
                             $scope.$emit('Chayka.Users.currentUserChanged', data.payload);
                             $scope.$broadcast('Chayka.Users.currentUserChanged', data.payload);
                         }
@@ -283,7 +283,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
             }
         };
     }])
-    .controller('chayka-auth-join', ['$scope', '$translate', '$timeout', 'ajax', function($scope, $translate, $timeout, ajax){
+    .controller('chayka-auth-join', ['$scope', 'nls', '$timeout', 'ajax', function($scope, nls, $timeout, ajax){
         $scope.$parent.registerScreen('join', $scope);
         $scope.isOpen = false;
         $scope.spinner = null;
@@ -302,11 +302,11 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
                         login: $scope.fields.name
                     },{
                         spinner: $scope.spinner,
-                        spinnerMessage: $translate.instant('message_spinner_sign_up'),
+                        spinnerMessage: nls._('message_spinner_sign_up'),
                         showMessage: false,
                         formValidator: $scope.validator,
-                        errorMessage: $translate.instant('message_error_sign_up_failed'),
-                        successMessage: $translate.instant('message_signed_up'),
+                        errorMessage: nls._('message_error_sign_up_failed'),
+                        successMessage: nls._('message_signed_up'),
                         scope: $scope,
                         success: function(){
                             //console.dir({'data': data});
@@ -319,7 +319,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
             }
         };
     }])
-    .controller('chayka-auth-password-forgot', ['$scope', '$translate', 'ajax', function($scope, $translate, ajax){
+    .controller('chayka-auth-password-forgot', ['$scope', 'nls', 'ajax', function($scope, nls, ajax){
         $scope.$parent.registerScreen('password-forgot', $scope);
         $scope.isOpen = false;
         $scope.spinner = null;
@@ -336,21 +336,21 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
                         email: $scope.fields.email
                     },{
                         spinner: $scope.spinner,
-                        spinnerMessage: $translate.instant('message_spinner_validating_email'),
+                        spinnerMessage: nls._('message_spinner_validating_email'),
                         showMessage: false,
                         formValidator: $scope.validator,
-                        errorMessage: $translate.instant('message_error_password_recovery'),
-                        successMessage: $translate.instant('message_change_pass_code_sent'),
+                        errorMessage: nls._('message_error_password_recovery'),
+                        successMessage: nls._('message_change_pass_code_sent'),
                         scope: $scope,
                         success: function(data){
                             //console.dir({'data': data});
-                            //$scope.validator.showMessage($translate.instant('message_change_pass_code_sent'));
+                            //$scope.validator.showMessage(nls._('message_change_pass_code_sent'));
                         }
                     });
             }
         };
     }])
-    .controller('chayka-auth-password-reset', ['$scope', '$translate', '$timeout' ,'ajax', function($scope, $translate, $timeout, ajax){
+    .controller('chayka-auth-password-reset', ['$scope', 'nls', '$timeout' ,'ajax', function($scope, nls, $timeout, ajax){
         $scope.$parent.registerScreen('password-reset', $scope);
         $scope.isOpen = false;
         $scope.spinner = null;
@@ -372,16 +372,16 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
                     },
                     {
                         spinner: $scope.spinner,
-                        spinnerMessage: $translate.instant('message_spinner_reset_password'),
+                        spinnerMessage: nls._('message_spinner_reset_password'),
                         showMessage: false,
                         formValidator: $scope.validator,
-                        errorMessage: $translate.instant('message_error_wrong_code'),
-                        successMessage: $translate.instant('message_password_set_signing_in'),
+                        errorMessage: nls._('message_error_wrong_code'),
+                        successMessage: nls._('message_password_set_signing_in'),
                         scope: $scope,
                         success: function(data){
                             //console.dir({'data': data});
                             //this.showLoginScreen();
-                            //$scope.validator.showMessage($translate.instant('message_password_set_signing_in'));
+                            //$scope.validator.showMessage(nls._('message_password_set_signing_in'));
                             $timeout(function(){
                                 $scope.$parent.hideModal();
                             }, 2000);
@@ -392,7 +392,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
         };
 
     }])
-    .controller('chayka-auth-password-change', ['$scope', '$timeout', '$translate', 'ajax', function($scope, $timeout, $translate, ajax){
+    .controller('chayka-auth-password-change', ['$scope', '$timeout', 'nls', 'ajax', function($scope, $timeout, nls, ajax){
         $scope.$parent.registerScreen('password-change', $scope);
         $scope.isOpen = false;
         $scope.spinner = null;
@@ -410,11 +410,11 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
                     $scope.fields,
                     {
                         spinner: $scope.spinner,
-                        spinnerMessage: $translate.instant('message_spinner_change_password'),
+                        spinnerMessage: nls._('message_spinner_change_password'),
                         showMessage: false,
                         formValidator: $scope.validator,
-                        errorMessage: $translate.instant('message_error_change_password'),
-                        successMessage: $translate.instant('message_password_changed'),
+                        errorMessage: nls._('message_error_change_password'),
+                        successMessage: nls._('message_password_changed'),
                         scope: $scope,
                         success: function(){
                             //console.dir({'data': data});
@@ -429,12 +429,12 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
             }
         };
     }])
-    .controller('chayka-auth-password-ask', ['$scope', '$timeout', '$translate', 'ajax', function($scope, $timeout, $translate, ajax){
+    .controller('chayka-auth-password-ask', ['$scope', '$timeout', 'nls', 'ajax', function($scope, $timeout, nls, ajax){
         $scope.$parent.registerScreen('password-ask', $scope);
         $scope.isOpen = false;
         $scope.spinner = null;
 
-        $scope.message = $translate.instant('message_confirm_password');
+        $scope.message = nls._('message_confirm_password');
         $scope.data = {};
         $scope.url = '/api/no-op/';
         $scope.callback = function(){};
@@ -452,11 +452,11 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
                     data,
                     {
                         spinner: $scope.spinner,
-                        spinnerMessage: $translate.instant('message_spinner_confirm_password'),
+                        spinnerMessage: nls._('message_spinner_confirm_password'),
                         showMessage: false,
                         formValidator: $scope.validator,
-                        //errorMessage: $translate.instant('message_error_confirm_password'),
-                        //successMessage: $translate.instant('message_password_confirmed'),
+                        //errorMessage: nls._('message_error_confirm_password'),
+                        //successMessage: nls._('message_password_confirmed'),
                         scope: $scope,
                         success: function(data, status, headers, config){
                             //console.dir({'data': data});
@@ -603,10 +603,10 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
             }
         });
     }])
-    .config(['$translateProvider', function($translateProvider) {
+    .config(['nlsProvider', function(nlsProvider) {
 
         // Adding a translation table for the English language
-        $translateProvider.translations('en-US', {
+        nlsProvider.setTranslations('en-US', {
             'header_default': 'Authentication',
             'message_spinner_sign_in': 'Signing in...',
             'message_welcome': 'Signed in!',
@@ -649,7 +649,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
             'user_menu_via_linkedin': 'via LinkedIn'
         });
 
-        $translateProvider.translations('ru-RU', {
+        nlsProvider.setTranslations('ru-RU', {
             'header_default': 'Аутентификация',
             'message_spinner_sign_in': 'Выполняется вход...',
             'message_welcome': 'Вход выполнен, добро пожаловать!',
