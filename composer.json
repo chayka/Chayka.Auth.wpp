@@ -14,7 +14,6 @@
         "classmap": ["app/helpers", "Plugin.php"]
     },
     "require": {
-        "chayka/wp": "dev-master",
         "chayka/email-wpp": "dev-master"
     }
 }
