@@ -54,18 +54,30 @@ class AuthHelper {
         return self::$screens;
     }
 
-	/**
-	 * Render embedded form screen
-	 *
-	 * @param $screen
-	 */
-	public static function renderEmbeddedForm($screen){
+    /**
+     * Render embedded form screen
+     *
+     * @param string $screen
+     * @param string $loggedInUrl
+     * @param string $loggedOutUrl
+     */
+	public static function renderEmbeddedForm($screen, $loggedInUrl = '', $loggedOutUrl = ''){
         NlsHelper::load('authForm');
         $view = Plugin::getView();
+        if(!$loggedInUrl){
+            $loggedInUrl = OptionHelper::getOption('urlLoggedIn', '');
+        }elseif($loggedInUrl === 'current'){
+            $loggedInUrl = $_SERVER['REQUEST_URI'];
+        }
+        if(!$loggedOutUrl){
+            $loggedOutUrl = OptionHelper::getOption('urlLoggedIn', '');
+        }elseif($loggedOutUrl === 'current'){
+            $loggedInUrl = $_SERVER['REQUEST_URI'];
+        }
         $view->assign('screen', $screen);
         $view->assign('screens', self::getScreens());
-        $view->assign('urlLoggedIn', OptionHelper::getOption('urlLoggedIn', ''));
-        $view->assign('urlLoggedOut', OptionHelper::getOption('urlLoggedOut', ''));
+        $view->assign('urlLoggedIn', $loggedInUrl);
+        $view->assign('urlLoggedOut', $loggedOutUrl);
         self::$navRendered = true;
         echo $view->render('auth/form-embedded.phtml');
     }
