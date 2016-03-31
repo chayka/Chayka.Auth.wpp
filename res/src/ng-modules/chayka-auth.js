@@ -68,7 +68,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
                     screens[screen].$apply();
                 }
                 return true;
-            }else if(embedded && $scope.screenUrls[screen]){
+            }else if(/*embedded && */$scope.screenUrls[screen]){
                 if('login' === screen && $window.localStorage){
                     $window.localStorage.setItem('Chayka.Auth.urlLoggedIn', $window.location.toString());
                 }
