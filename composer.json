@@ -13,7 +13,7 @@
     "autoload":{
         "classmap": ["app/helpers", "Plugin.php"]
     },
-    "require": {
+    "suggest": {
         "chayka/email-wpp": "dev-master"
     }
 }
