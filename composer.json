@@ -11,7 +11,11 @@
         }
     ],
     "autoload":{
-        "classmap": ["app/helpers", "Plugin.php"]
+        "classmap": [
+            "app/helpers",
+            "Plugin.php",
+            "Sidebar.php"
+        ]
     },
     "suggest": {
         "chayka/email-wpp": "dev-master"

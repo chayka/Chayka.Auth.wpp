@@ -1,5 +1,8 @@
 <?php
+
 namespace Chayka\Auth;
+
+if(!class_exists('Chayka\WP\SidebarWidget')) return;
 
 use Chayka\WP;
 
@@ -9,6 +12,7 @@ class SidebarWidget extends WP\SidebarWidget {
         return Plugin::getView();
     }
 }
+
 class AuthUserMenuWidget extends SidebarWidget {
     function __construct() {
         $id = 'auth-usermenu';
