@@ -8,12 +8,12 @@
 
 namespace Chayka\Auth;
 
-use Chayka\Email;
+use Chayka\Core;
 use Chayka\WP\Models\UserModel;
 
 NlsHelper::load('email');
 
-class EmailHelper extends Email\EmailHelper{
+class EmailHelper extends Core\EmailHelper{
 
     public static function getView(){
         $view = Plugin::getView();

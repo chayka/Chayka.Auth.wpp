@@ -22,7 +22,7 @@ class Plugin extends WP\Plugin{
      */
     protected static $requiredClasses = [
         "Chayka\\WP\\Plugin" => 'Chayka.Core plugin is required in order for Chayka.Auth to work properly',
-        "Chayka\\Email\\Plugin" => 'Chayka.Email plugin is required in order for Chayka.Auth to work properly',
+        "Chayka\\Core\\Plugin" => 'Chayka.Core plugin is required in order for Chayka.Auth to work properly',
     ];
 
     /**
