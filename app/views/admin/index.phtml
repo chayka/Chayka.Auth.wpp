@@ -1,32 +1,30 @@
 <h2>Auth Options</h2>
 
-<div data-ng-cloak data-ng-init="options={};">
-    <div data-console-page-options="options" data-namespace="Chayka.Auth">
-            <div class="form_field stretch" data-form-field="newUserRole">
-                <label>New User Role</label><select data-ng-init="options.newUserRole='subscriber'; userRoles = {'subscriber': '1. Subscriber', 'contributor': '2. Contributor', 'author': '3. Author', 'editor': '4. Editor', 'administrator':'5. Administrator'}" data-ng-model="options.newUserRole" data-ng-options="key as value for (key, value) in userRoles | orderBy: value"  title="New User Role"></select>
-            </div>
-            <div class="form_field stretch" data-form-field="authMode">
-                <label>Auth Mode</label><select data-ng-init="options.authMode='reload'; authOptions = {'reload': 'Page Reload', 'event': 'Publish Event'}" data-ng-model="options.authMode" data-ng-options="key as value for (key, value) in authOptions"  title="Auth Mode"></select>
-            </div>
-            <div class="form_field fullsize" data-form-field="urlLogin">
-                <label>Login url</label><input type="text" data-ng-init="options.urlLogin=''" data-ng-model="options.urlLogin" title="Login url"/>
-            </div>
-            <div class="form_field fullsize" data-form-field="urlJoin">
-                <label>Join url</label><input type="text" data-ng-init="options.urlJoin=''" data-ng-model="options.urlJoin" title="Join url"/>
-            </div>
-            <div class="form_field fullsize" data-form-field="urlForgotPassword">
-                <label>Forgot password url</label><input type="text" data-ng-init="options.urlForgotPassword=''" data-ng-model="options.urlForgotPassword" title="Forgot password url"/>
-            </div>
-            <div class="form_field fullsize" data-form-field="urlLoggedIn">
-                <label>Logged in url</label><input type="text" data-ng-init="options.urlLoggedIn=''" data-ng-model="options.urlLoggedIn" title="Logged in url"/>
-            </div>
-            <div class="form_field fullsize" data-form-field="urlLoggedOut">
-                <label>Logged out url</label><input type="text" data-ng-init="options.urlLoggedOut=''" data-ng-model="options.urlLoggedOut" title="Logged out url"/>
-            </div>
-            <div class="form_field stretch show_profile_link" data-form-field="showProfileLink">
-                <label class="width70">Show Profile Link</label><select data-ng-init="options.showProfileLink='0'; showProfileLinkOptions = {'1':'Yes','0':'No'}" data-ng-model="options.showProfileLink" data-ng-options="key as value for (key, value) in showProfileLinkOptions" title="Show Profile Link"></select>
-            </div>
-
-	        <!-- chayka: fields -->
+<div data-console-page-options="options" data-namespace="Chayka.Auth" data-ng-init="options={};" data-ng-cloak>
+    <div class="form_field stretch" data-form-field="newUserRole">
+        <label>New User Role</label><select data-ng-init="options.newUserRole='subscriber'; userRoles = {'subscriber': '1. Subscriber', 'contributor': '2. Contributor', 'author': '3. Author', 'editor': '4. Editor', 'administrator':'5. Administrator'}" data-ng-model="options.newUserRole" data-ng-options="key as value for (key, value) in userRoles | orderBy: value"  title="New User Role"></select>
     </div>
+    <div class="form_field stretch" data-form-field="authMode">
+        <label>Auth Mode</label><select data-ng-init="options.authMode='reload'; authOptions = {'reload': 'Page Reload', 'event': 'Publish Event'}" data-ng-model="options.authMode" data-ng-options="key as value for (key, value) in authOptions"  title="Auth Mode"></select>
+    </div>
+    <div class="form_field fullsize" data-form-field="urlLogin">
+        <label>Login url</label><input type="text" data-ng-init="options.urlLogin=''" data-ng-model="options.urlLogin" title="Login url"/>
+    </div>
+    <div class="form_field fullsize" data-form-field="urlJoin">
+        <label>Join url</label><input type="text" data-ng-init="options.urlJoin=''" data-ng-model="options.urlJoin" title="Join url"/>
+    </div>
+    <div class="form_field fullsize" data-form-field="urlForgotPassword">
+        <label>Forgot password url</label><input type="text" data-ng-init="options.urlForgotPassword=''" data-ng-model="options.urlForgotPassword" title="Forgot password url"/>
+    </div>
+    <div class="form_field fullsize" data-form-field="urlLoggedIn">
+        <label>Logged in url</label><input type="text" data-ng-init="options.urlLoggedIn=''" data-ng-model="options.urlLoggedIn" title="Logged in url"/>
+    </div>
+    <div class="form_field fullsize" data-form-field="urlLoggedOut">
+        <label>Logged out url</label><input type="text" data-ng-init="options.urlLoggedOut=''" data-ng-model="options.urlLoggedOut" title="Logged out url"/>
+    </div>
+    <div class="form_field stretch show_profile_link" data-form-field="showProfileLink">
+        <label class="width70">Show Profile Link</label><select data-ng-init="options.showProfileLink='0'; showProfileLinkOptions = {'1':'Yes','0':'No'}" data-ng-model="options.showProfileLink" data-ng-options="key as value for (key, value) in showProfileLinkOptions" title="Show Profile Link"></select>
+    </div>
+
+    <!-- chayka: fields -->
 </div>
