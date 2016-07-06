@@ -525,10 +525,10 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
         };
 
         $scope.avatar = function(size){
-            if($scope.user.meta.fb_user_id){
+            if($scope.user.meta && $scope.user.meta.fb_user_id){
                 return $scope.fbavatar(size);
             }
-            if($scope.user.meta.in_user_id){
+            if($scope.user.meta && $scope.user.meta.in_user_id){
                 return $scope.inavatar(size);
             }
             return $scope.gravatar(size);
