@@ -504,7 +504,7 @@ angular.module('chayka-auth', ['chayka-forms', 'chayka-buttons', 'chayka-modals'
         };
 
         $scope.isUserNative = function(){
-            return !$scope.user.meta.source;
+            return !$scope.user.meta || !$scope.user.meta.source;
         };
 
         $scope.gravatar = function(size) {
